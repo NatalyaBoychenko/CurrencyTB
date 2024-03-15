@@ -11,6 +11,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import java.nio.charset.StandardCharsets;
+
+import static com.telegrambot.features.telegram.BotConstants.*;
+
 public class StartCommand extends BotCommand {
 
     public StartCommand() {
@@ -21,11 +25,12 @@ public class StartCommand extends BotCommand {
     @SneakyThrows
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         SendMessage message = new SendMessage();
-        message.setText("Ласкаво просимо. Цей бот допоможе отримати актуальний курс валют");
+        message.setText(new String("Ласкаво просимо. Цей бот допоможе отримати актуальний курс валют"
+                .getBytes(), StandardCharsets.UTF_8));
         message.setChatId(Long.toString(chat.getId()));
 
-        KeyboardButton infoButton = KeyboardButton.builder().text("Отримати інфо").build();
-        KeyboardButton setting = KeyboardButton.builder().text("Налаштування").build();
+        KeyboardButton infoButton = KeyboardButton.builder().text(INFO).build();
+        KeyboardButton setting = KeyboardButton.builder().text(SETTINGS).build();
 
         KeyboardRow keyboardRow = new KeyboardRow();
         keyboardRow.add(infoButton);
