@@ -1,24 +1,15 @@
 package com.telegrambot.features.telegram;
 
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import com.telegrambot.features.telegram.command.StartCommand;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-public class CurrencyTelegramBot extends TelegramLongPollingBot {
-    @Override
-    public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
-            message.setChatId(update.getMessage().getChatId().toString());
-            message.setText(update.getMessage().getText());
+import static com.telegrambot.features.telegram.BotConstants.BOT_TOKEN;
 
-            try {
-                execute(message); // Call method to send the message
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }
+public class CurrencyTelegramBot extends TelegramLongPollingCommandBot {
+    public CurrencyTelegramBot() {
+        super(BOT_TOKEN);
+        register(new StartCommand());
     }
 
     @Override
@@ -27,8 +18,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public String getBotToken() {
-        return BotConstants.BOT_TOKEN;
+    public void processNonCommandUpdate(Update update) {
+        System.out.println("Non-command");
     }
-
 }
