@@ -1,5 +1,7 @@
-package com.telegrambot.features.bank;
+package com.telegrambot.features.currency;
 
+
+import com.telegrambot.features.currency.dto.Currency;
 
 import java.io.IOException;
 

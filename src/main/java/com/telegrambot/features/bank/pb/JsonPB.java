@@ -1,6 +1,6 @@
 package com.telegrambot.features.bank.pb;
 
-import com.telegrambot.features.bank.Currency;
+import com.telegrambot.features.currency.dto.Currency;
 import lombok.Data;
 @Data
 public class JsonPB {

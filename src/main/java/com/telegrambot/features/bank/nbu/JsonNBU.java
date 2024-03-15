@@ -1,6 +1,6 @@
 package com.telegrambot.features.bank.nbu;
 
-import com.telegrambot.features.bank.Currency;
+import com.telegrambot.features.currency.dto.Currency;
 
 public class JsonNBU {
     private int r030;

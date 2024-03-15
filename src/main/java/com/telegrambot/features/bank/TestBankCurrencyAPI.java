@@ -3,11 +3,9 @@ package com.telegrambot.features.bank;
 
 import com.telegrambot.features.bank.nbu.NBUCurrencyServise;
 import com.telegrambot.features.bank.pb.PrivatBankCurrencyServise;
+import com.telegrambot.features.currency.dto.Currency;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
 
 
 public class TestBankCurrencyAPI {

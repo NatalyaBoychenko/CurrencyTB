@@ -2,8 +2,8 @@ package com.telegrambot.features.bank.pb;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.telegrambot.features.bank.BankService;
-import com.telegrambot.features.bank.Currency;
+import com.telegrambot.features.currency.BankService;
+import com.telegrambot.features.currency.dto.Currency;
 
 
 import java.io.IOException;
