@@ -21,7 +21,7 @@ public class StartCommand extends BotCommand {
     @SneakyThrows
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         SendMessage message = new SendMessage();
-        message.setText("Ласкаво просимо. Цей бот дпоможе отримати актуальний курс валют");
+        message.setText("Ласкаво просимо. Цей бот допоможе отримати актуальний курс валют");
         message.setChatId(Long.toString(chat.getId()));
 
         KeyboardButton infoButton = KeyboardButton.builder().text("Отримати інфо").build();
