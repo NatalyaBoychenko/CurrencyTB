@@ -1,6 +1,9 @@
 package com.telegrambot.features.bank;
 
-public enum Currency {
+public  enum Currency {
     EUR,
     USD,
+    ;
+
+
 }

@@ -14,4 +14,8 @@ public class JsonPB {
     public float getBuy() {
         return buy;
     }
+
+    public float getSale() {
+        return sale;
     }
+}
