@@ -8,14 +8,5 @@ public class JsonPB {
         private Currency base_ccy;
         private float buy;
         private float sale;
-    public Currency getCcy() {
-        return ccy;
-    }
-    public float getBuy() {
-        return buy;
-    }
-
-    public float getSale() {
-        return sale;
-    }
+   
 }
