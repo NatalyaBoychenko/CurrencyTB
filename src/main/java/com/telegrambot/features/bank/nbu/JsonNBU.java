@@ -11,5 +11,4 @@ public class JsonNBU {
     private Currency cc;
     private String exchangeDate;
 
-
 }
