@@ -17,7 +17,7 @@ import java.util.*;
 public class NBUCurrencyServise implements BankService {
 
     @Override
-    public double getBuyRate(Currency currency) throws IOException, InterruptedException {
+    public double getBuyRate(Currency currency)  {
 
         return getCurrenciesOfBank().stream()
                 .filter(x -> x.getCc() == currency)
@@ -27,7 +27,7 @@ public class NBUCurrencyServise implements BankService {
     }
 
     @Override
-    public double getSellRate(Currency currency) throws IOException, InterruptedException {
+    public double getSellRate(Currency currency)  {
 
         return getCurrenciesOfBank().stream()
                 .filter(x -> x.getCc() == currency)
@@ -36,7 +36,7 @@ public class NBUCurrencyServise implements BankService {
                 .orElseThrow();
     }
 
-    public List<JsonNBU> getCurrenciesOfBank() throws IOException, InterruptedException {
+    public List<JsonNBU> getCurrenciesOfBank()  {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         HttpClient client = HttpClient.newHttpClient();
         String url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
@@ -47,7 +47,12 @@ public class NBUCurrencyServise implements BankService {
                 .GET()
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = null;
+        try {
+            response =  client.send(request, HttpResponse.BodyHandlers.ofString());
+        }catch (IOException | InterruptedException e){
+            e.printStackTrace();
+        }
 
 
         //Convert json => Java Object
