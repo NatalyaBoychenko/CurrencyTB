@@ -6,8 +6,8 @@ import java.nio.charset.StandardCharsets;
 
 @UtilityClass
 public class BotConstants {
-    public static final String BOT_NAME = "ForProjectNatVersionBot";
-    public static final String BOT_TOKEN = "6710863867:AAHRTETthY00mU1At3LHWMCuVroxhj3H5IA";
+    public static final String BOT_NAME = "name";
+    public static final String BOT_TOKEN = "token";
     public static final String  INFO = new String("Отримати інфо".getBytes(), StandardCharsets.UTF_8);
     public static final String SETTINGS = new String("Налаштування".getBytes(), StandardCharsets.UTF_8);
 
