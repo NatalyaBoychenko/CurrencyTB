@@ -18,7 +18,7 @@ import java.util.*;
 public class PrivatBankCurrencyServise implements BankService {
 
     @Override
-    public double getBuyRate(Currency currency) throws IOException, InterruptedException {
+    public double getBuyRate(Currency currency)  {
 
          return getCurrenciesOfBank().stream()
                 .filter(x -> x.getCcy() == currency)
@@ -28,7 +28,7 @@ public class PrivatBankCurrencyServise implements BankService {
     }
 
     @Override
-    public double getSellRate(Currency currency) throws IOException, InterruptedException {
+    public double getSellRate(Currency currency)  {
 
         return getCurrenciesOfBank().stream()
                 .filter(x -> x.getCcy() == currency)
@@ -36,8 +36,7 @@ public class PrivatBankCurrencyServise implements BankService {
                 .findFirst()
                 .orElseThrow();
     }
-
-    public List<JsonPB> getCurrenciesOfBank() throws IOException, InterruptedException {
+    public List<JsonPB> getCurrenciesOfBank()  {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         HttpClient client = HttpClient.newHttpClient();
         String url = "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5";
@@ -48,14 +47,15 @@ public class PrivatBankCurrencyServise implements BankService {
                 .GET()
                 .build();
         //Convert json => Java Object
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = null;
+        try {
+            response =  client.send(request, HttpResponse.BodyHandlers.ofString());
+        }catch (IOException | InterruptedException e){
+            e.printStackTrace();
+        }
             JsonPB[] todosArray = gson.fromJson(response.body(), (Type) JsonPB[].class);
             List<JsonPB> curencyList = new ArrayList<>(Arrays.asList(todosArray));
-
-
-
         return curencyList;
     }
-
 
 }
