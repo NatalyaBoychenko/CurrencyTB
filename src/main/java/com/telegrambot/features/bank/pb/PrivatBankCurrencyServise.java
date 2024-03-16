@@ -47,15 +47,13 @@ public class PrivatBankCurrencyServise implements BankService {
                 .uri(URI.create(url))
                 .GET()
                 .build();
-
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-
         //Convert json => Java Object
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            JsonPB[] todosArray = gson.fromJson(response.body(), (Type) JsonPB[].class);
+            List<JsonPB> curencyList = new ArrayList<>(Arrays.asList(todosArray));
 
-        JsonPB[] todosArray = gson.fromJson(response.body(), (Type) JsonPB[].class);
 
-        List<JsonPB> curencyList = new ArrayList<>(Arrays.asList(todosArray));
+
         return curencyList;
     }
 

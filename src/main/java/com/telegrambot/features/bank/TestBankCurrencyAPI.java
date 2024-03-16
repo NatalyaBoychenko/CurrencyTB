@@ -9,6 +9,7 @@ import java.io.IOException;
 
 
 public class TestBankCurrencyAPI {
+
     public static void main(String[] args) throws IOException, InterruptedException {
         PrivatBankCurrencyServise privatBankCurrencyServise = new PrivatBankCurrencyServise();
         System.out.println("privatBankCurrencyServise.getBuyRate(Currency.USD) = " + privatBankCurrencyServise.getBuyRate(Currency.USD));
