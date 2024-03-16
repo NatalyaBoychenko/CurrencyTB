@@ -1,7 +1,9 @@
 package com.telegrambot.features.bank.nbu;
 
 import com.telegrambot.features.currency.dto.Currency;
+import lombok.Data;
 
+@Data
 public class JsonNBU {
     private int r030;
     private String txt;
@@ -9,23 +11,5 @@ public class JsonNBU {
     private Currency cc;
     private String exchangeDate;
 
-    public int getR030() {
-        return r030;
-    }
 
-    public String getTxt() {
-        return txt;
-    }
-
-    public float getRate() {
-        return rate;
-    }
-
-    public Currency getCc() {
-        return cc;
-    }
-
-    public String getExchangeDate() {
-        return exchangeDate;
-    }
 }
