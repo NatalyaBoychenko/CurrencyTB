@@ -1,8 +1,7 @@
 package com.telegrambot.features.currency.dto;
 
-public  enum Currency {
+public enum Currency {
     UAN,
-    EUR,
-    USD
+    USD,
+    EUR
 }
-
