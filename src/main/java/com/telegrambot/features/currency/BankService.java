@@ -8,3 +8,4 @@ public interface BankService {
     double getBuyRate(Currency currency);
     double getSellRate(Currency currency);
 }
+
