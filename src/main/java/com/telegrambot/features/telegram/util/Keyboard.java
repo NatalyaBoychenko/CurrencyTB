@@ -11,8 +11,8 @@ import java.util.List;
 
 import static com.telegrambot.features.currency.dto.Currency.EUR;
 import static com.telegrambot.features.currency.dto.Currency.USD;
-import static com.telegrambot.features.telegram.util.BotConstants.*;
-import static com.telegrambot.features.telegram.util.BotConstants.HOME;
+import static com.telegrambot.features.telegram.BotConstants.*;
+import static com.telegrambot.features.telegram.BotConstants.HOME;
 @UtilityClass
 public class Keyboard {
     public static InlineKeyboardMarkup setStartKeyboard() {
