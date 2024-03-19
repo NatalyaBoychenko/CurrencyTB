@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.telegrambot.features.currency.BankService;
 import com.telegrambot.features.currency.dto.Currency;
+import com.telegrambot.features.model.Bank;
 
 
 import java.io.IOException;
@@ -15,7 +16,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 
-public class PrivatBankCurrencyServise implements BankService {
+public class PrivatBankCurrencyServise extends Bank implements BankService {
+
+    public PrivatBankCurrencyServise() {
+        super("ПриватБанк");
+    }
 
     @Override
     public double getBuyRate(Currency currency)  {
