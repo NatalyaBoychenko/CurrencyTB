@@ -23,7 +23,7 @@ public class StartCommand extends BotCommand {
     public StartCommand() {
         super("Start", "Start bot");
     }
-
+  
     @Override
     @SneakyThrows
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
