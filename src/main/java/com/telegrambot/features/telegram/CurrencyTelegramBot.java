@@ -1,6 +1,7 @@
 package com.telegrambot.features.telegram;
 
 import com.telegrambot.features.telegram.command.BankSetting;
+import com.telegrambot.features.telegram.command.Reminder;
 import com.telegrambot.features.telegram.command.RoundRate;
 import com.telegrambot.features.telegram.util.Keyboard;
 import lombok.SneakyThrows;
@@ -19,7 +20,7 @@ import static com.telegrambot.features.telegram.BotConstants.*;
 public class CurrencyTelegramBot extends TelegramLongPollingBot {
     RoundRate roundRate;
     BankSetting bankSetting;
-//    private Reminder reminder;
+    private Reminder reminder;
     private Settings settings;
 
     @Override
@@ -31,6 +32,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         super(BOT_TOKEN);
         roundRate = new RoundRate();
         bankSetting = new BankSetting();
+        reminder = new Reminder();
     }
 
     @Override
@@ -77,14 +79,19 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
         } else if (callBackMessage.equals(BANK)) {
             sendMessage.setChatId(chatId);
-            sendMessage.setText(new String("Банк".getBytes(), StandardCharsets.UTF_8));
+            sendMessage.setText(BANK);
             sendMessage.setReplyMarkup(Keyboard.setBankKeyboard());
             execute(sendMessage);
 
         } else if (callBackMessage.equals(CURRENCY)) {
             sendMessage.setChatId(chatId);
-            sendMessage.setText(new String("Валюта".getBytes(), StandardCharsets.UTF_8));
+            sendMessage.setText(CURRENCY);
             sendMessage.setReplyMarkup(Keyboard.setCurrencyKeyboard());
+            execute(sendMessage);
+        } else if (callBackMessage.equals(REMINDER_TIME )) {
+            sendMessage.setChatId(chatId);
+            sendMessage.setText(REMINDER_TIME);
+            sendMessage.setReplyMarkup(Keyboard.setReminderKeyboard());
             execute(sendMessage);
 
         } else if (callBackMessage.equals(BACK)) {
@@ -96,12 +103,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         } else {
             roundRate.handleCallbackRoundRate(callbackQuery);
             bankSetting.handleCallbackRoundRate(callbackQuery);
-//            String message = new String(callbackQuery.getData().getBytes(), StandardCharsets.UTF_8);
-//            String response = new String(("Ви ввели: " + message).getBytes(), StandardCharsets.UTF_8);
-//            sendMessage.setChatId(chatId);
-//            sendMessage.setText(Settings.getDefault());
-//            sendMessage.setReplyMarkup(Keyboard.setStartKeyboard());
-//            execute(sendMessage);
+            reminder.handleCallbackReminder(callbackQuery);
         }
     }
     @SneakyThrows
