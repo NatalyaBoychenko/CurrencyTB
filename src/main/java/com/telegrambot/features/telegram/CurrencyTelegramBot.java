@@ -9,7 +9,7 @@ import static com.telegrambot.features.telegram.BotConstants.BOT_TOKEN;
 public class CurrencyTelegramBot extends TelegramLongPollingCommandBot {
     public CurrencyTelegramBot() {
         super(BOT_TOKEN);
-        register(new StartCommand());
+        register(new StartCommand()); 
     }
 
     @Override
