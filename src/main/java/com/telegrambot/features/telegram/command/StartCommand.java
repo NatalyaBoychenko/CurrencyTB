@@ -1,4 +1,4 @@
-package com.telegrambot.features.telegram.command;
+ package com.telegrambot.features.telegram.command;
 
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
@@ -23,7 +23,7 @@ public class StartCommand extends BotCommand {
     public StartCommand() {
         super("Start", "Start bot");
     }
-
+   
     @Override
     @SneakyThrows
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
