@@ -12,7 +12,7 @@ public class TelegramBotLauncher {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             telegramBotsApi.registerBot(currencyTelegramBot);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            e.printStackTrace(); 
         }
     }
 }
