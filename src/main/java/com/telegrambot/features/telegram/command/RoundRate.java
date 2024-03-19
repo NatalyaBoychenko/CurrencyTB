@@ -13,10 +13,10 @@ public class RoundRate {
         switch (answer){
             case "3":
                 settings.setRoundDigit(3);
-                System.out.println("input 3");
+                System.out.println("successful roundrate 3");
             case "4":
                 settings.setRoundDigit(4);
-                System.out.println("input 4");
+                System.out.println("successful roundrate 4");
             default:
                 settings.setRoundDigit(2);
         }

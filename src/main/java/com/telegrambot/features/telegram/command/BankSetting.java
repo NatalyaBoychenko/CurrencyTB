@@ -14,12 +14,15 @@ public class BankSetting {
         switch (answer){
             case "mono":
                 //settings.setBank(new MonoBankCurrencyService());
+                System.out.println("successful");
                 break;
             case "nbu":
                 //settings.setBank(new NBUCurrencyService());
+                System.out.println("successful");
                 break;
             default:
                 settings.setBank(new PrivatBankCurrencyService());
+                System.out.println("successful");
                 break;
         }
     }

@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -75,6 +76,10 @@ public class Keyboard {
                         .text(BACK)
                         .callbackData(BACK)
                         .build()));
+        buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text(HOME)
+                .callbackData(HOME)
+                .build()));
         return InlineKeyboardMarkup.builder().keyboard(buttons).build();
     }
 
@@ -95,6 +100,10 @@ public class Keyboard {
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text(BACK)
                 .callbackData(BACK)
+                .build()));
+        buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text(HOME)
+                .callbackData(HOME)
                 .build()));
         return InlineKeyboardMarkup.builder().keyboard(buttons).build();
     }
@@ -117,6 +126,39 @@ public class Keyboard {
                 .text(BACK)
                 .callbackData(BACK)
                 .build()));
+        buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text(HOME)
+                .callbackData(HOME)
+                .build()));
         return InlineKeyboardMarkup.builder().keyboard(buttons).build();
+    }
+
+    public static InlineKeyboardMarkup setReminderKeyboard() {
+        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+        buttons.add(Arrays.asList(
+                InlineKeyboardButton.builder().text("9").callbackData("9").build(),
+                InlineKeyboardButton.builder().text("10").callbackData("10").build(),
+                InlineKeyboardButton.builder().text("11").callbackData("11").build()));
+
+        buttons.add(Arrays.asList(
+                InlineKeyboardButton.builder().text("12").callbackData("12").build(),
+                InlineKeyboardButton.builder().text("13").callbackData("13").build(),
+                InlineKeyboardButton.builder().text("14").callbackData("14").build()));
+
+        buttons.add(Arrays.asList(
+                InlineKeyboardButton.builder().text("15").callbackData("15").build(),
+                InlineKeyboardButton.builder().text("16").callbackData("16").build(),
+                InlineKeyboardButton.builder().text("17").callbackData("17").build()));
+
+        buttons.add(Arrays.asList(
+                InlineKeyboardButton.builder().text("18").callbackData("18").build(),
+                InlineKeyboardButton.builder().text(CANCEL_REMINDER).callbackData("0").build()));
+
+        buttons.add(Arrays.asList(
+                InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build(),
+                InlineKeyboardButton.builder().text(HOME).callbackData(HOME).build()));
+
+        return InlineKeyboardMarkup.builder().keyboard(buttons).build();
+
     }
 }
