@@ -1,6 +1,5 @@
 package com.telegrambot.features.telegram;
 
-import com.telegrambot.features.currency.CurrencyService;
 import com.telegrambot.features.telegram.command.BankSetting;
 import com.telegrambot.features.telegram.command.RoundRate;
 import com.telegrambot.features.telegram.util.Keyboard;
@@ -15,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
-import static com.telegrambot.features.telegram.util.BotConstants.*;
+import static com.telegrambot.features.telegram.BotConstants.*;
 
 public class CurrencyTelegramBot extends TelegramLongPollingBot {
     RoundRate roundRate;
