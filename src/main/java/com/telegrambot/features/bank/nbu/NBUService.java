@@ -1,18 +1,20 @@
-package com.telegrambot.features.bank.pb;
+package com.telegrambot.features.bank.nbu;
+
+import java.util.List;
+
+import com.telegrambot.features.bank.pb.CurrencyService;
+import com.telegrambot.features.model.Bank;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 import java.util.Currency;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.telegrambot.features.model.Bank;
 import org.jsoup.Jsoup;
-import lombok.Data;
 
-public class NBUService extends Bank implements CurrencyService {
+public abstract class NBUService extends Bank implements CurrencyService {
 
-    private static final String NBU_API_URL = "https://ваш_адрес_для_запросов_к_апи_NBU";
+    private static final String NBU_API_URL = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
 
     public NBUService() {
         super("NBU");
@@ -20,17 +22,17 @@ public class NBUService extends Bank implements CurrencyService {
 
     @Override
     public double getBuyRate(Currency currency) {
-        List<CurrencyNBUItem> currencyItems = getRate(currency);
+        List<CurrencyNBUItem> currencyItems = getRatesFromNBU();
         double converted = 0;
         if (currency.getCurrencyCode().equalsIgnoreCase("USD")) {
             converted = currencyItems.stream()
-                    .filter(it -> it.getCc().equalsIgnoreCase("USD")) // Змінено згідно нового поля cc
+                    .filter(it -> it.getCc().equalsIgnoreCase("USD"))
                     .mapToDouble(CurrencyNBUItem::getRate)
                     .findFirst()
                     .orElseThrow();
         } else if (currency.getCurrencyCode().equalsIgnoreCase("EUR")) {
             converted = currencyItems.stream()
-                    .filter(it -> it.getCc().equalsIgnoreCase("EUR")) // Змінено згідно нового поля cc
+                    .filter(it -> it.getCc().equalsIgnoreCase("EUR"))
                     .mapToDouble(CurrencyNBUItem::getRate)
                     .findFirst()
                     .orElseThrow();
@@ -40,7 +42,7 @@ public class NBUService extends Bank implements CurrencyService {
 
     @Override
     public double getSellRate(Currency currency) {
-        return getBuyRate(currency); // Використовуємо той самий метод, оскільки у НБУ зазвичай один курс для купівлі та продажу
+        return getBuyRate(currency);
     }
 
     private List<CurrencyNBUItem> getRatesFromNBU() {
@@ -57,13 +59,5 @@ public class NBUService extends Bank implements CurrencyService {
         }
         java.lang.reflect.Type typeToken = TypeToken.getParameterized(List.class, CurrencyNBUItem.class).getType();
         return new Gson().fromJson(json, typeToken);
-    }
-    @Data
-    public class CurrencyNBUItem {
-        private int r030; // Поле для 'r030'
-        private String txt; // Поле для 'txt'
-        private float rate; // Поле для 'rate'
-        private String сс; // Поле для 'cc'
-        private String exchangedate; // Поле для 'exchangedate'
     }
 }
