@@ -4,6 +4,7 @@ import com.telegrambot.features.telegram.command.BankSetting;
 import com.telegrambot.features.telegram.command.Reminder;
 import com.telegrambot.features.telegram.command.RoundRate;
 import com.telegrambot.features.telegram.util.Keyboard;
+import com.telegrambot.features.telegram.util.SavedSettings;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,15 +14,17 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Currency;
 import java.util.Optional;
 
-import static com.telegrambot.features.telegram.BotConstants.*;
+import static com.telegrambot.features.telegram.util.BotConstants.*;
 
 public class CurrencyTelegramBot extends TelegramLongPollingBot {
-    RoundRate roundRate;
-    BankSetting bankSetting;
-    private Reminder reminder;
-    private Settings settings;
+    private final RoundRate roundRate;
+    private final BankSetting bankSetting;
+    private final Reminder reminder;
+//    private final SavedSettings savedSettings;
+//    private final Currency currency;
 
     @Override
     public String getBotUsername() {
@@ -33,13 +36,14 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         roundRate = new RoundRate();
         bankSetting = new BankSetting();
         reminder = new Reminder();
+//        savedSettings = new SavedSettings();
+//        currency = new Currency();
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasCallbackQuery()) {
             handleCallback(update.getCallbackQuery());
-
         } else if (update.hasMessage()) {
             handleMessage(update.getMessage());
         }
@@ -48,10 +52,9 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     @SneakyThrows
     private void handleCallback(CallbackQuery callbackQuery) {
         SendMessage sendMessage = new SendMessage();
-
+        Settings settingForUser;
         String callBackMessage = callbackQuery.getData();
         Long chatId = callbackQuery.getMessage().getChatId();
-
 
         if (callBackMessage.equals(INFO)) {
             sendMessage.setChatId(chatId);
@@ -74,24 +77,25 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         } else if (callBackMessage.equals(ROUNDED_INDEX)) {
             sendMessage.setChatId(chatId);
             sendMessage.setText(ROUNDED_INDEX);
-            sendMessage.setReplyMarkup(Keyboard.setRoundRateKeyboard());
+            sendMessage.setReplyMarkup(Keyboard.setRoundRateKeyboard(ROUNDED_INDEX));
             execute(sendMessage);
 
         } else if (callBackMessage.equals(BANK)) {
             sendMessage.setChatId(chatId);
             sendMessage.setText(BANK);
-            sendMessage.setReplyMarkup(Keyboard.setBankKeyboard());
+            sendMessage.setReplyMarkup(Keyboard.setBankKeyboard(BANK));
             execute(sendMessage);
 
         } else if (callBackMessage.equals(CURRENCY)) {
             sendMessage.setChatId(chatId);
             sendMessage.setText(CURRENCY);
-            sendMessage.setReplyMarkup(Keyboard.setCurrencyKeyboard());
+            sendMessage.setReplyMarkup(Keyboard.setCurrencyKeyboard(CURRENCY));
             execute(sendMessage);
+
         } else if (callBackMessage.equals(REMINDER_TIME )) {
             sendMessage.setChatId(chatId);
             sendMessage.setText(REMINDER_TIME);
-            sendMessage.setReplyMarkup(Keyboard.setReminderKeyboard());
+            sendMessage.setReplyMarkup(Keyboard.setReminderKeyboard(REMINDER_TIME));
             execute(sendMessage);
 
         } else if (callBackMessage.equals(BACK)) {
@@ -101,10 +105,25 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             execute(sendMessage);
 
         } else {
-            roundRate.handleCallbackRoundRate(callbackQuery);
-            bankSetting.handleCallbackRoundRate(callbackQuery);
-            reminder.handleCallbackReminder(callbackQuery);
+//            sendMessage.setChatId(chatId);
+//            sendMessage.setText("Wrong message");
+//            execute(sendMessage);
+            roundRate.handleCallbackRoundRate(callbackQuery, this);
+//        bankSetting.handleCallbackRoundRate(callbackQuery);
+        reminder.handleCallbackReminder(callbackQuery, this);
         }
+
+//        if (!savedSettings.isUserSettingsPresent(chatId)) {
+//            settingForUser = new Settings(chatId);
+//            savedSettings.addSetting(chatId, settingForUser);
+//
+//        } else {
+//            settingForUser = savedSettings.getSettingForUser(chatId);
+//        }
+//        roundRate.handleCallbackRoundRate(callbackQuery, settingForUser, this);
+//        bankSetting.handleCallbackRoundRate(callbackQuery, settingForUser, this);
+//        reminder.handleCallbackReminder(callbackQuery, settingForUser, this);
+
     }
     @SneakyThrows
     private void handleMessage(Message message) {
