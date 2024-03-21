@@ -32,16 +32,17 @@ public class Settings {
         return String.format("Курс в ПриватБанк: USD/UAN\nПокупка: %.2f\nПродаж: %.2f", buyRate, sellRate);
     }
 
-//    public static Settings getDefaultSettings(long chatId){
-//        Settings defaultSetting = SavedSettings.getSettingForUser(chatId);
-//        defaultSetting.setBank(new PrivatBankCurrencyService());
-//        defaultSetting.setRoundDigit(2);
-//        List<Currency> currencyList = List.of(USD);
+//    public static String getDefaultSettings(long chatId) {
+//        Settings settingForUser = SavedSettings.getSettingForUser(chatId);
+//        assert settingForUser != null;
+//        Bank bank = settingForUser.getBank();
+//        int reminder = settingForUser.getReminderTime();
+////        List<Currency> currencyList = settingForUser.getCurrencyList();
 //
-//        currencyList.add(USD);
-//        defaultSetting.setCurrencyList(currencyList);
-//        defaultSetting.setReminderTime(13);
-//        return defaultSetting;
-//    }
+//        int roundDigit = settingForUser.getRoundDigit();
+//        double buyRate = bank.getBuyRate(USD);
+//        double sellRate = bank.getSellRate(USD);
+//        double scale = Math.pow(10, reminder);
+//        return String.format("Курс в ПриватБанк: USD/UAN\nПокупка: %s\nПродаж: %s", buyRate, sellRate);
+    }
 
-}

@@ -22,22 +22,34 @@ public class RoundRate {
         Long chatId = callbackQuery.getMessage().getChatId();
         Integer messageId = callbackQuery.getMessage().getMessageId();
 
-        switch (answer){
-            case "2":
-                settings.setRoundDigit(2);
-                System.out.println("successful roundRate 2");
-                break;
-            case "3":
-                settings.setRoundDigit(3);
-                System.out.println("successful roundRate 3");
-                break;
-            case "4":
-                settings.setRoundDigit(4);
-                System.out.println("successful roundRate 4");
-                break;
-            default:
-                System.out.println("successful roundRate");
+        if (answer.equals("2")) {
+            settings.setRoundDigit(2);
+            System.out.println("successful roundRate 2");
+        } else if (answer.equals("3")) {
+            settings.setRoundDigit(3);
+            System.out.println("successful roundRate 3");
+        } else if (answer.equals("4")) {
+            settings.setRoundDigit(4);
+            System.out.println("successful roundRate 4");
+        } else {
+            System.out.println("successful roundRate");
         }
+//        switch (answer){
+//            case "2":
+//                settings.setRoundDigit(2);
+//                System.out.println("successful roundRate 2");
+//                break;
+//            case "3":
+//                settings.setRoundDigit(3);
+//                System.out.println("successful roundRate 3");
+//                break;
+//            case "4":
+//                settings.setRoundDigit(4);
+//                System.out.println("successful roundRate 4");
+//                break;
+//            default:
+//                System.out.println("successful roundRate");
+//        }
         InlineKeyboardMarkup updatedMarkup = Keyboard.setRoundRateKeyboard(answer);
 
         EditMessageReplyMarkup editMessageReplyMarkup = EditMessageReplyMarkup.builder()

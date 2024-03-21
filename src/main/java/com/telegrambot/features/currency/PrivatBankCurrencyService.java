@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.telegrambot.features.currency.dto.Currency;
 import com.telegrambot.features.currency.dto.CurrencyPrivatItem;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.IOException;
@@ -16,7 +17,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.telegrambot.features.telegram.util.BotConstants.PRIVAT_BANK;
+@AllArgsConstructor
 public class PrivatBankCurrencyService extends Bank implements CurrencyService {
+    private final String name = PRIVAT_BANK;
     @Override
     public double getBuyRate(Currency currency) {
 
