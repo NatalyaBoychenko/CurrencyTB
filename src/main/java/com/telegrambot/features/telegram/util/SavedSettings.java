@@ -8,7 +8,7 @@ import java.util.List;
 public class SavedSettings {
     private static final List<Settings> savedSettings = new ArrayList<>();
 
-    public  boolean isUserSettingsPresent(long chatId) {
+    public static boolean isUserSettingsPresent(long chatId) {
         for (Settings savedSetting : savedSettings) {
             if (savedSetting.getChatId() == chatId) {
                 return true;
@@ -16,7 +16,7 @@ public class SavedSettings {
         }
         return false;
     }
-    public  void addSetting(long chatId, Settings setting) {
+    public static void addSetting(long chatId, Settings setting) {
         for (int i = 0; i < savedSettings.size(); i++) {
             if (savedSettings.get(i).getChatId() == chatId) {
                 savedSettings.set(i, setting);
@@ -26,7 +26,7 @@ public class SavedSettings {
     }
 
 
-    public  Settings getSettingForUser(long chatId) {
+    public static Settings getSettingForUser(long chatId) {
         for (Settings savedSetting : savedSettings) {
             if (savedSetting.getChatId() == chatId) {
                 return savedSetting;

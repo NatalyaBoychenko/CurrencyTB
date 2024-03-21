@@ -17,22 +17,22 @@ import static com.telegrambot.features.telegram.util.BotConstants.ROUNDED_INDEX;
 
 public class RoundRate {
     @SneakyThrows
-    public void handleCallbackRoundRate(CallbackQuery callbackQuery, CurrencyTelegramBot bot) {
+    public void handleCallbackRoundRate(CallbackQuery callbackQuery, Settings settings, CurrencyTelegramBot bot) {
         String answer = callbackQuery.getData();
         Long chatId = callbackQuery.getMessage().getChatId();
         Integer messageId = callbackQuery.getMessage().getMessageId();
 
         switch (answer){
             case "2":
-//                settings.setRoundDigit(2);
+                settings.setRoundDigit(2);
                 System.out.println("successful roundRate 2");
                 break;
             case "3":
-//                settings.setRoundDigit(3);
+                settings.setRoundDigit(3);
                 System.out.println("successful roundRate 3");
                 break;
             case "4":
-//                settings.setRoundDigit(4);
+                settings.setRoundDigit(4);
                 System.out.println("successful roundRate 4");
                 break;
             default:
