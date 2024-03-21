@@ -88,15 +88,15 @@ public class Keyboard {
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text(PRIVAT_BANK)
-                .callbackData("privat")
+                .callbackData(PRIVAT_BANK)
                 .build()));
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text(MONOBANK)
-                .callbackData("mono")
+                .callbackData(MONOBANK)
                 .build()));
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text(NBU)
-                .callbackData("nbu")
+                .callbackData(NBU)
                 .build()));
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text(BACK)
