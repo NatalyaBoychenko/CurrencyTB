@@ -13,7 +13,7 @@ import java.util.List;
 import static com.telegrambot.features.currency.dto.Currency.EUR;
 import static com.telegrambot.features.currency.dto.Currency.USD;
 
-public class Currency {
+public class CurrencySetting {
     @SneakyThrows
     public void handleCallbackCurrency(CallbackQuery callbackQuery, Settings settings, CurrencyTelegramBot bot) {
         String answer = callbackQuery.getData();
@@ -23,6 +23,10 @@ public class Currency {
             case "EUR":
                 settings.setCurrencyList(List.of(EUR, USD));
                 System.out.println("successful eur");
+                break;
+            case "USD":
+                settings.setCurrencyList(List.of(EUR));
+                System.out.println("successful usd");
                 break;
             default:
                 settings.setCurrencyList(List.of(USD));

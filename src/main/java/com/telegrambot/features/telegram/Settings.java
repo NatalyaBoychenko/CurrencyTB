@@ -3,10 +3,12 @@ package com.telegrambot.features.telegram;
 import com.telegrambot.features.currency.Bank;
 import com.telegrambot.features.currency.PrivatBankCurrencyService;
 import com.telegrambot.features.currency.dto.Currency;
+import com.telegrambot.features.telegram.util.SavedSettings;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.telegrambot.features.currency.dto.Currency.USD;
@@ -14,10 +16,10 @@ import static com.telegrambot.features.currency.dto.Currency.USD;
 @AllArgsConstructor
 public class Settings {
     private long chatId;
-    private int roundDigit;
-    private Bank bank;
-    private int reminderTime;
-    private List<Currency> currencyList;
+    private int roundDigit = 2;
+    private Bank bank = new PrivatBankCurrencyService();
+    private int reminderTime = 12;
+    private List<Currency> currencyList = List.of(USD);
 
     public Settings(long chatId) {
         this.chatId = chatId;
@@ -31,13 +33,13 @@ public class Settings {
     }
 
 //    public static Settings getDefaultSettings(long chatId){
-//        Settings defaultSetting = new Settings(chatId);
+//        Settings defaultSetting = SavedSettings.getSettingForUser(chatId);
 //        defaultSetting.setBank(new PrivatBankCurrencyService());
 //        defaultSetting.setRoundDigit(2);
-//        List<Currency> currencyList = new ArrayList<>();
+//        List<Currency> currencyList = List.of(USD);
 //
 //        currencyList.add(USD);
-//        defaultSetting.setCurrencies(currencyList);
+//        defaultSetting.setCurrencyList(currencyList);
 //        defaultSetting.setReminderTime(13);
 //        return defaultSetting;
 //    }
