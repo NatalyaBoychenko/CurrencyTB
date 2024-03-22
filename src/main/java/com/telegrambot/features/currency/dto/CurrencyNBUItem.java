@@ -9,7 +9,7 @@ public class CurrencyNBUItem {
 
     private String txt;
     private float rate;
-    private String сс;
+    private String cc;
     @JsonProperty(value = "exchangedate")
     private String exchangeDate;
 }
