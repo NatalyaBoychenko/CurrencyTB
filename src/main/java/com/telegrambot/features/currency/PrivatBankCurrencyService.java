@@ -21,6 +21,7 @@ import static com.telegrambot.features.telegram.util.BotConstants.PRIVAT_BANK;
 @AllArgsConstructor
 public class PrivatBankCurrencyService extends Bank implements CurrencyService {
     private final String name = PRIVAT_BANK;
+
     @Override
     public double getBuyRate(Currency currency) {
 
