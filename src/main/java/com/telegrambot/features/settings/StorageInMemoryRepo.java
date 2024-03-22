@@ -1,20 +1,18 @@
 package com.telegrambot.features.settings;
 
-import com.telegrambot.features.model.Setting;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class SavedCustomerSettings {
-    private final List<Setting> chatSettings;
+public class StorageInMemoryRepo {
+    private final List<Settings> chatSettings;
 
-    public SavedCustomerSettings() {
+    public StorageInMemoryRepo() {
         this.chatSettings = new ArrayList<>();
     }
 
 
     public boolean containsSettingsForConcreteUser(long chatId) {
-        for (Setting chatSetting : chatSettings){
+        for (Settings chatSetting : chatSettings){
             if(chatSetting.getChatId() == chatId){
                 return true;
             }
@@ -23,7 +21,7 @@ public class SavedCustomerSettings {
     }
 
 
-    public void addSetting(long chatId, Setting chatSetting) {
+    public void addSetting(long chatId, Settings chatSetting) {
         for (int i = 0; i < chatSettings.size(); i++) {
             if (chatSettings.get(i).getChatId() == chatId) {
                 chatSettings.set(i, chatSetting);
@@ -34,13 +32,18 @@ public class SavedCustomerSettings {
     }
 
 
-    public Setting getSettingForConcreteUser(long chatId) {
-        for (Setting chatSetting : chatSettings) {
+    public Settings getSettingForConcreteUser(long chatId) {
+        for (Settings chatSetting : chatSettings) {
             if (chatSetting.getChatId() == chatId) {
                 return chatSetting;
             }
         }
         return null;
+    }
+
+    public List<Settings> getListOfSettings() {
+
+        return List.copyOf(chatSettings);
     }
 
 }

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.telegrambot.features.currency.dto.Currency;
 import com.telegrambot.features.currency.dto.JsonMB;
+import com.telegrambot.features.telegram.util.BotConstants;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,10 +18,12 @@ import java.util.Arrays;
 
 import java.util.List;
 
-import static com.telegrambot.features.telegram.BotConstants.MONO_URL;
 
-//edit
-public class MonoBankCurrencyService implements BankService {
+public class MonoBankCurrencyService extends Bank {
+
+    public MonoBankCurrencyService() {
+        super("МоноБанк");
+    }
 
     @Override
     public double getBuyRate(Currency currency) {
@@ -78,7 +81,7 @@ public class MonoBankCurrencyService implements BankService {
         Gson gson = (new GsonBuilder()).setPrettyPrinting().create();
         HttpClient client = HttpClient.newHttpClient();
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(MONO_URL)).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(BotConstants.MONO_URL)).GET().build();
 
         HttpResponse<String> response = null;
 

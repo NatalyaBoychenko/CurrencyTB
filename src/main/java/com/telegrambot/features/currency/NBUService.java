@@ -7,17 +7,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.telegrambot.features.currency.dto.Currency;
 import com.telegrambot.features.currency.dto.CurrencyNBUItem;
-import com.telegrambot.features.model.Bank;
-import com.telegrambot.features.telegram.BotConstants;
+
 import org.jsoup.Jsoup;
 
-import static com.telegrambot.features.telegram.BotConstants.NBU_API_URL;
+import static com.telegrambot.features.telegram.util.BotConstants.NBU_URL;
 
 
-public class NBUService extends Bank implements BankService {
+public class NBUService extends Bank{
 
     public NBUService() {
-        super("NBU");
+        super("НБУ");
     }
 
     @Override
@@ -28,13 +27,13 @@ public class NBUService extends Bank implements BankService {
 
         if (currency.name().equalsIgnoreCase("USD")) {
             converted = currencyItems.stream()
-                    .filter(it -> it.getСс().equalsIgnoreCase("USD"))
+                    .filter(it -> it.getCc().equalsIgnoreCase("USD"))
                     .mapToDouble(CurrencyNBUItem::getRate)
                     .findFirst()
                     .orElseThrow();
         } else if (currency.name().equalsIgnoreCase("EUR")) {
             converted = currencyItems.stream()
-                    .filter(it -> it.getСс().equalsIgnoreCase("EUR"))
+                    .filter(it -> it.getCc().equalsIgnoreCase("EUR"))
                     .mapToDouble(CurrencyNBUItem::getRate)
                     .findFirst()
                     .orElseThrow();
@@ -51,7 +50,7 @@ public class NBUService extends Bank implements BankService {
         String json;
 
         try {
-            json = Jsoup.connect(NBU_API_URL)
+            json = Jsoup.connect(NBU_URL)
                     .ignoreContentType(true)
                     .get()
                     .body()
