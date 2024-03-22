@@ -7,8 +7,8 @@ import java.nio.charset.StandardCharsets;
 @UtilityClass
 public class BotConstants {
 
-    public static final String BOT_NAME = "NatBoiCurBot";
-    public static final String BOT_TOKEN = "6412532350:AAHp0kMrq78YDNXWT6M2zMOsgceuLDWauk8";
+    public static final String BOT_NAME = "";
+    public static final String BOT_TOKEN = "";
     public static final String  INFO = "Отримати інфо";
     public static final String SETTINGS = "Налаштування";
     public static final String  ROUNDED_INDEX = "Кількість знаків після коми";
