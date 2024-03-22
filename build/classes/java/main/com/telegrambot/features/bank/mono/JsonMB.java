@@ -7,7 +7,7 @@ public class JsonMB {
     private Currency base_ccy;
     private float buy;
     private float sale;
-
+//edit
     public JsonMB() {
     }
 
