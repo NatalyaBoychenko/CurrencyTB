@@ -1,4 +1,4 @@
-package com.telegrambot.features.bank.pb;
+package com.telegrambot.features.currency.dto;
 
 import com.telegrambot.features.currency.dto.Currency;
 import lombok.Data;

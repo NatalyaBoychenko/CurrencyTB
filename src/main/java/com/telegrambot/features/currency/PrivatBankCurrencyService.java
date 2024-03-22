@@ -1,9 +1,9 @@
-package com.telegrambot.features.bank.pb;
+package com.telegrambot.features.currency;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.telegrambot.features.currency.BankService;
 import com.telegrambot.features.currency.dto.Currency;
+import com.telegrambot.features.currency.dto.JsonPB;
 import com.telegrambot.features.model.Bank;
 
 
@@ -16,9 +16,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 
-public class PrivatBankCurrencyServise extends Bank implements BankService {
+import static com.telegrambot.features.telegram.BotConstants.PRIVAT_URL;
 
-    public PrivatBankCurrencyServise() {
+public class PrivatBankCurrencyService extends Bank implements BankService {
+
+
+    public PrivatBankCurrencyService() {
         super("ПриватБанк");
     }
 
@@ -44,14 +47,14 @@ public class PrivatBankCurrencyServise extends Bank implements BankService {
     public List<JsonPB> getCurrenciesOfBank()  {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         HttpClient client = HttpClient.newHttpClient();
-        String url = "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5";
-        //Get JSON
+        String url = PRIVAT_URL;
+
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
                 .GET()
                 .build();
-        //Convert json => Java Object
+
         HttpResponse<String> response = null;
         try {
             response =  client.send(request, HttpResponse.BodyHandlers.ofString());

@@ -1,6 +1,6 @@
 package com.telegrambot.features.model;
 
-import com.telegrambot.features.bank.pb.PrivatBankCurrencyServise;
+import com.telegrambot.features.currency.PrivatBankCurrencyService;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Setting {
     public static Setting getDefaultSettings(long chatId){
 
         Setting defaultSetting = new Setting(chatId);
-        defaultSetting.setBank(new PrivatBankCurrencyServise());
+        defaultSetting.setBank(new PrivatBankCurrencyService());
         defaultSetting.setRoundDigit(2);
         List<Currency> currencyList = new ArrayList<>();
 
