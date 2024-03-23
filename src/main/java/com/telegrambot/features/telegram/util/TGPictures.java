@@ -31,6 +31,7 @@ public class MyBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
+
     }
 
     @Override
