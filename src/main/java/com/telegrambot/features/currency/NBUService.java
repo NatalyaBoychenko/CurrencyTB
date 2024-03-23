@@ -16,7 +16,7 @@ import static com.telegrambot.features.telegram.util.BotConstants.NBU_URL;
 public class NBUService extends Bank{
 
     public NBUService() {
-        super("НБУ");
+        super("NBU");
     }
 
     @Override

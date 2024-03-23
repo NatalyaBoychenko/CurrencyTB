@@ -17,58 +17,61 @@ public class Reminder {
         Long chatId = callbackQuery.getMessage().getChatId();
         Integer messageId = callbackQuery.getMessage().getMessageId();
 
-        switch (answer){
-            case "9":
+        switch (answer) {
+            case "9" -> {
                 settings.setReminderTime(9);
                 storageInMemory.addSetting(settings.getChatId(), settings);
                 System.out.println("successful 9");
-                break;
-            case "10":
+            }
+            case "10" -> {
                 settings.setReminderTime(10);
                 storageInMemory.addSetting(settings.getChatId(), settings);
                 System.out.println("successful 10");
-                break;
-            case "11":
+            }
+            case "11" -> {
                 settings.setReminderTime(11);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                break;
-            case "12":
+            }
+            case "12" -> {
                 settings.setReminderTime(12);
                 storageInMemory.addSetting(settings.getChatId(), settings);
                 System.out.println("12");
-                break;
-            case "13":
+            }
+            case "13" -> {
                 settings.setReminderTime(13);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                break;
-            case "14":
+            }
+            case "14" -> {
                 settings.setReminderTime(14);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                break;
-            case "15":
+            }
+            case "15" -> {
                 settings.setReminderTime(15);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                break;
-            case "16":
+            }
+            case "16" -> {
                 settings.setReminderTime(16);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                break;
-            case "17":
+            }
+            case "17" -> {
                 settings.setReminderTime(17);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                break;
-            case "18":
+            }
+            case "18" -> {
                 settings.setReminderTime(18);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                break;
-            default:
-                settings.setReminderTime(0);
+            }
+            case "0" -> {
+                settings.setReminderTime(26);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                break;
+            }
+            default -> {
+                System.out.println();
+            }
         }
 
 
-        InlineKeyboardMarkup updatedMarkup = Keyboard.setReminderKeyboard(answer);
+        InlineKeyboardMarkup updatedMarkup = Keyboard.setReminderKeyboard(settings);
 
         EditMessageReplyMarkup editMessageReplyMarkup = EditMessageReplyMarkup.builder()
                 .chatId(chatId)

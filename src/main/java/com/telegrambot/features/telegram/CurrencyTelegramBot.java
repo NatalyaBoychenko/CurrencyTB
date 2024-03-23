@@ -3,10 +3,8 @@ package com.telegrambot.features.telegram;
 import com.telegrambot.features.settings.Settings;
 import com.telegrambot.features.settings.ExchangeMessage;
 import com.telegrambot.features.settings.StorageInMemoryRepo;
-import com.telegrambot.features.telegram.command.BankSetting;
-import com.telegrambot.features.telegram.command.CurrencySetting;
-import com.telegrambot.features.telegram.command.Reminder;
-import com.telegrambot.features.telegram.command.RoundRate;
+import com.telegrambot.features.telegram.command.*;
+import com.telegrambot.features.telegram.util.BotConstants;
 import com.telegrambot.features.telegram.util.Keyboard;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -27,6 +25,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     private final Reminder reminder;
     private final CurrencySetting currency;
     StorageInMemoryRepo storageInMemory;
+    private Language language;
 
     @Override
     public String getBotUsername() {
@@ -38,6 +37,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         storageInMemory = new StorageInMemoryRepo();
         roundRate = new RoundRate();
         bankSetting = new BankSetting();
+        language = new Language();
         reminder = new Reminder();
         currency = new CurrencySetting();
     }
@@ -66,23 +66,40 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         String callBackMessage = callbackQuery.getData();
         Long chatId = callbackQuery.getMessage().getChatId();
 
-        if (callBackMessage.equals(INFO)) {
+        if (callBackMessage.equals("englLang")){
+           settings.setLanguage("eng");
+           storageInMemory.addSetting(chatId, settings);
+            sendMessage.setChatId(chatId);
+//            String text = BotConstants.getEng().get("MESSSAGE");
+            sendMessage.setText(BotConstants.getNameButton("eng", "MESSAGE"));
+            sendMessage.setReplyMarkup(Keyboard.setStartKeyboard(settings));
+
+            execute(sendMessage);
+        } else  if (callBackMessage.equals("ukrLang")){
+            settings.setLanguage("ukr");
+            storageInMemory.addSetting(chatId, settings);
+            sendMessage.setChatId(chatId);
+//            String text = BotConstants.getUkr().get("MESSSAGE");
+            sendMessage.setText(BotConstants.getNameButton("ukr", "MESSAGE"));
+            sendMessage.setReplyMarkup(Keyboard.setStartKeyboard(settings));
+            execute(sendMessage);
+        } else if (callBackMessage.equals(INFO)) {
                 sendMessage.setChatId(chatId);
                 sendMessage.setText(ExchangeMessage.printMessage(settings));
 //                sendMessage.setText(Settings.getDefaultSettings(chatId));
-                sendMessage.setReplyMarkup(Keyboard.setStartKeyboard());
+                sendMessage.setReplyMarkup(Keyboard.setStartKeyboard(settings));
                 execute(sendMessage);
 
-            } else if (callBackMessage.equals(SETTINGS)) {
+            } else if (callBackMessage.equals(SETTINGS) || callBackMessage.equals(BACK)) {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText(SETTINGS);
-                sendMessage.setReplyMarkup(Keyboard.setSettingsKeyboard());
+                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "SETTINGS"));
+                sendMessage.setReplyMarkup(Keyboard.setSettingsKeyboard(settings));
                 execute(sendMessage);
 
             } else if (callBackMessage.equals(HOME)) {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText("Виберіть одну із дій");
-                sendMessage.setReplyMarkup(Keyboard.setStartKeyboard());
+                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "MESSAGE"));
+                sendMessage.setReplyMarkup(Keyboard.setStartKeyboard(settings));
                 execute(sendMessage);
 
             } else if (callBackMessage.equals(ROUNDED_INDEX)) {
@@ -96,12 +113,18 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
             } else if (callBackMessage.equals(REMINDER_TIME)) {
                 reminder.handleCallbackReminder(callbackQuery, settings, storageInMemory, this);
-
-            } else if (callBackMessage.equals(BACK)) {
+            } else if (callBackMessage.equals("LANGUAGE")) {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText(SETTINGS);
-                sendMessage.setReplyMarkup(Keyboard.setSettingsKeyboard());
+                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "MESSAGE"));
+                sendMessage.setReplyMarkup(Keyboard.setLanguageKeyboard(settings));
                 execute(sendMessage);
+
+
+//            } else if (callBackMessage.equals(BACK)) {
+//                sendMessage.setChatId(chatId);
+//                sendMessage.setText(SETTINGS);
+//                sendMessage.setReplyMarkup(Keyboard.setSettingsKeyboard(settings));
+//                execute(sendMessage);
 
             } else if (callBackMessage.equals("2") || callBackMessage.equals("3") || callBackMessage.equals("4")) {
                 roundRate.handleCallbackRoundRate(callbackQuery, settings, storageInMemory, this);
@@ -109,7 +132,15 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                 bankSetting.handleCallbackRoundRate(callbackQuery, settings, storageInMemory,this);
             } else if (callBackMessage.equals(USD.name()) || callBackMessage.equals(EUR.name())) {
                 currency.handleCallbackCurrency(callbackQuery, settings,storageInMemory, this);
-            } else {
+            } else if (callBackMessage.equals("eng") || callBackMessage.equals("ukr")) {
+                language.handleCallbackLanguage(callbackQuery, settings,storageInMemory, this);
+            } else
+//                if (callBackMessage.equals("9") || callBackMessage.equals("10") ||
+//                callBackMessage.equals("11") || callBackMessage.equals("12") ||
+//                callBackMessage.equals("13") || callBackMessage.equals("14") ||
+//                callBackMessage.equals("15") || callBackMessage.equals("16") ||
+//                callBackMessage.equals("17") || callBackMessage.equals("18"))
+                {
             reminder.handleCallbackReminder(callbackQuery, settings, storageInMemory,this);
         }
 
@@ -123,11 +154,25 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             if (commandEntity.isPresent()) {
                 String command = message.getText();
                 if (command.equals("/start")) {
+
                     execute(SendMessage.builder()
-                            .text("Ласкаво просимо. Цей бот допоможе отримати актуальний курс валют")
+                            .text("""
+                                    Curency Telegram Bot
+
+                                    Ласкаво просимо! Цей бот допоможе знайти актуальний курс валют. Для початку оберыть мову.
+
+                                    Wellcome! This bot helps you find actual currency info. Choose language for start
+
+                                    """)
                             .chatId(message.getChatId().toString())
-                            .replyMarkup(Keyboard.setStartKeyboard())
+                            .replyMarkup(Keyboard.setStartLanguageKeyboard())
                             .build());
+
+//                    execute(SendMessage.builder()
+//                            .text("Ласкаво просимо. Цей бот допоможе отримати актуальний курс валют")
+//                            .chatId(message.getChatId().toString())
+//                            .replyMarkup(Keyboard.setStartKeyboard())
+//                            .build());
                 }
             }
         }

@@ -3,12 +3,14 @@ package com.telegrambot.features.telegram.util;
 import lombok.experimental.UtilityClass;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @UtilityClass
 public class BotConstants {
 
-    public static final String BOT_NAME = "";
-    public static final String BOT_TOKEN = "";
+    public static final String BOT_NAME = "ForProjectNatVersionBot";
+    public static final String BOT_TOKEN = "6710863867:AAHRTETthY00mU1At3LHWMCuVroxhj3H5IA";
     public static final String  INFO = "Отримати інфо";
     public static final String SETTINGS = "Налаштування";
     public static final String  ROUNDED_INDEX = "Кількість знаків після коми";
@@ -27,4 +29,10 @@ public class BotConstants {
     public static final String PRIVAT_BANK = "ПриватБанк";
 
 
+    public static String getNameButton(String language, String name){
+        Locale locale = new Locale(language);
+        ResourceBundle rb = ResourceBundle.getBundle("names", locale);
+        return rb.getString(name);
+
+    }
 }

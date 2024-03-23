@@ -21,8 +21,9 @@ import java.util.List;
 
 public class MonoBankCurrencyService extends Bank {
 
+
     public MonoBankCurrencyService() {
-        super("МоноБанк");
+        super("MonoBank");
     }
 
     @Override

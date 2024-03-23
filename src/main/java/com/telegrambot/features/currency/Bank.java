@@ -7,8 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public abstract class Bank {
-    private String name;
-
+String name;
     public abstract double getBuyRate(Currency currency);
     public abstract double getSellRate(Currency currency);
 }
