@@ -1,7 +1,9 @@
 package com.telegrambot.features.telegram.command;
 
+import com.telegrambot.features.currency.dto.Currency;
+import com.telegrambot.features.settings.Settings;
+import com.telegrambot.features.settings.StorageInMemoryRepo;
 import com.telegrambot.features.telegram.CurrencyTelegramBot;
-import com.telegrambot.features.telegram.Settings;
 import com.telegrambot.features.telegram.util.Keyboard;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
@@ -15,27 +17,36 @@ import static com.telegrambot.features.currency.dto.Currency.USD;
 
 public class CurrencySetting {
     @SneakyThrows
-    public void handleCallbackCurrency(CallbackQuery callbackQuery, Settings settings, CurrencyTelegramBot bot) {
+    public void handleCallbackCurrency(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory, CurrencyTelegramBot bot) {
         String answer = callbackQuery.getData();
-        Long chatId = callbackQuery.getMessage().getChatId();
         Integer messageId = callbackQuery.getMessage().getMessageId();
-        switch (answer) {
-            case "EUR":
-                settings.setCurrencyList(List.of(EUR, USD));
-                System.out.println("successful eur");
-                break;
-            case "USD":
-                settings.setCurrencyList(List.of(EUR));
-                System.out.println("successful usd");
-                break;
-            default:
-                settings.setCurrencyList(List.of(USD));
-                break;
+        List<Currency> currencies = settings.getCurrencies();
+
+        if (answer.equals(EUR.name())) {
+            if (settings.getCurrencies().contains(EUR)) {
+                currencies.remove(EUR);
+            } else {
+                currencies.add(EUR);
+            }
+
         }
-        InlineKeyboardMarkup updatedMarkup = Keyboard.setCurrencyKeyboard(answer);
+        if (answer.equals(USD.name()))
+        {
+            if (settings.getCurrencies().contains(USD)) {
+                currencies.remove(USD);
+            } else {
+                currencies.add(USD);
+            }
+
+        }
+
+        settings.setCurrencies(currencies);
+        storageInMemory.addSetting(settings.getChatId(), settings);
+
+        InlineKeyboardMarkup updatedMarkup = Keyboard.setCurrencyKeyboard(settings);
 
         EditMessageReplyMarkup editMessageReplyMarkup = EditMessageReplyMarkup.builder()
-                .chatId(chatId)
+                .chatId(settings.getChatId())
                 .messageId(messageId)
                 .replyMarkup(updatedMarkup)
                 .build();

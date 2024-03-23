@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.telegrambot.features.currency.dto.Currency;
 import com.telegrambot.features.currency.dto.CurrencyPrivatItem;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -17,10 +15,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.telegrambot.features.telegram.util.BotConstants.PRIVAT_BANK;
-@AllArgsConstructor
-public class PrivatBankCurrencyService extends Bank implements CurrencyService {
-    private final String name = PRIVAT_BANK;
+
+
+public class PrivatBankCurrencyService extends Bank {
+
+
+    public PrivatBankCurrencyService() {
+        super("ПриватБанк");
+    }
 
     @Override
     public double getBuyRate(Currency currency) {
@@ -46,7 +48,7 @@ public class PrivatBankCurrencyService extends Bank implements CurrencyService {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         HttpClient client = HttpClient.newHttpClient();
         String url = "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5";
-        //Get JSON
+
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
@@ -58,7 +60,7 @@ public class PrivatBankCurrencyService extends Bank implements CurrencyService {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        //Convert json => Java Object
+
         CurrencyPrivatItem[] todosArray = gson.fromJson(response.body(), (Type) CurrencyPrivatItem[].class);
         return new ArrayList<>(Arrays.asList(todosArray));
     }

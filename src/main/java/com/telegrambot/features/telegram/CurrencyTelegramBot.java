@@ -1,21 +1,20 @@
 package com.telegrambot.features.telegram;
 
+import com.telegrambot.features.settings.Settings;
+import com.telegrambot.features.settings.ExchangeMessage;
+import com.telegrambot.features.settings.StorageInMemoryRepo;
 import com.telegrambot.features.telegram.command.BankSetting;
 import com.telegrambot.features.telegram.command.CurrencySetting;
 import com.telegrambot.features.telegram.command.Reminder;
 import com.telegrambot.features.telegram.command.RoundRate;
 import com.telegrambot.features.telegram.util.Keyboard;
-import com.telegrambot.features.telegram.util.SavedSettings;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Currency;
 import java.util.Optional;
 
 import static com.telegrambot.features.currency.dto.Currency.EUR;
@@ -27,6 +26,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     private final BankSetting bankSetting;
     private final Reminder reminder;
     private final CurrencySetting currency;
+    StorageInMemoryRepo storageInMemory;
 
     @Override
     public String getBotUsername() {
@@ -35,6 +35,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     public CurrencyTelegramBot() {
         super(BOT_TOKEN);
+        storageInMemory = new StorageInMemoryRepo();
         roundRate = new RoundRate();
         bankSetting = new BankSetting();
         reminder = new Reminder();
@@ -43,31 +44,31 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        Settings settingForUser;
+        SendMessage sendMessage = new SendMessage();
+
         if (update.hasCallbackQuery()) {
-            handleCallback(update.getCallbackQuery());
+
+            long chatId = update.getCallbackQuery().getMessage().getChatId();
+
+            Settings settings = storageInMemory.containsSettingsForConcreteUser(chatId) ?
+                    storageInMemory.getSettingForConcreteUser(chatId) : Settings.getDefaultSettings(chatId);
+
+            handleCallback(update.getCallbackQuery(), settings,storageInMemory, sendMessage);
         } else if (update.hasMessage()) {
             handleMessage(update.getMessage());
         }
     }
 
     @SneakyThrows
-    private void handleCallback(CallbackQuery callbackQuery) {
-        SendMessage sendMessage = new SendMessage();
-        Settings settingForUser;
+    private void handleCallback(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory, SendMessage sendMessage) {
+
+
         String callBackMessage = callbackQuery.getData();
         Long chatId = callbackQuery.getMessage().getChatId();
-        if (!SavedSettings.isUserSettingsPresent(chatId)) {
-            settingForUser = new Settings(chatId);
-            SavedSettings.addSetting(chatId, settingForUser);
-
-        } else {
-            settingForUser = SavedSettings.getSettingForUser(chatId);
-        }
 
         if (callBackMessage.equals(INFO)) {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText(Settings.getDefault());
+                sendMessage.setText(ExchangeMessage.printMessage(settings));
 //                sendMessage.setText(Settings.getDefaultSettings(chatId));
                 sendMessage.setReplyMarkup(Keyboard.setStartKeyboard());
                 execute(sendMessage);
@@ -80,21 +81,21 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
             } else if (callBackMessage.equals(HOME)) {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText(Settings.getDefault());
+                sendMessage.setText("Виберіть одну із дій");
                 sendMessage.setReplyMarkup(Keyboard.setStartKeyboard());
                 execute(sendMessage);
 
             } else if (callBackMessage.equals(ROUNDED_INDEX)) {
-                roundRate.handleCallbackRoundRate(callbackQuery, settingForUser, this);
+                roundRate.handleCallbackRoundRate(callbackQuery, settings, storageInMemory , this);
 
             } else if (callBackMessage.equals(BANK)) {
-                bankSetting.handleCallbackRoundRate(callbackQuery, settingForUser, this);
+                bankSetting.handleCallbackRoundRate(callbackQuery, settings, storageInMemory, this);
 
             } else if (callBackMessage.equals(CURRENCY)) {
-                currency.handleCallbackCurrency(callbackQuery, settingForUser, this);
+                currency.handleCallbackCurrency(callbackQuery, settings, storageInMemory, this);
 
             } else if (callBackMessage.equals(REMINDER_TIME)) {
-                reminder.handleCallbackReminder(callbackQuery, settingForUser, this);
+                reminder.handleCallbackReminder(callbackQuery, settings, storageInMemory, this);
 
             } else if (callBackMessage.equals(BACK)) {
                 sendMessage.setChatId(chatId);
@@ -103,23 +104,19 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                 execute(sendMessage);
 
             } else if (callBackMessage.equals("2") || callBackMessage.equals("3") || callBackMessage.equals("4")) {
-                roundRate.handleCallbackRoundRate(callbackQuery, settingForUser, this);
-            } else if (callBackMessage.equals("9") || callBackMessage.equals("10") || callBackMessage.equals("11") ||
-                callBackMessage.equals("12") || callBackMessage.equals("13") || callBackMessage.equals("14") ||
-                callBackMessage.equals("15") || callBackMessage.equals("16") || callBackMessage.equals("17") ||
-                callBackMessage.equals("18")) {
-                reminder.handleCallbackReminder(callbackQuery, settingForUser, this);
+                roundRate.handleCallbackRoundRate(callbackQuery, settings, storageInMemory, this);
             } else if (callBackMessage.equals(PRIVAT_BANK) || callBackMessage.equals(MONOBANK) || callBackMessage.equals(NBU)) {
-                bankSetting.handleCallbackRoundRate(callbackQuery, settingForUser, this);
+                bankSetting.handleCallbackRoundRate(callbackQuery, settings, storageInMemory,this);
             } else if (callBackMessage.equals(USD.name()) || callBackMessage.equals(EUR.name())) {
-                currency.handleCallbackCurrency(callbackQuery, settingForUser, this);
-            }
-        System.out.println(SavedSettings.getSettingForUser(chatId));
-//                System.out.println("the end");
+                currency.handleCallbackCurrency(callbackQuery, settings,storageInMemory, this);
+            } else {
+            reminder.handleCallbackReminder(callbackQuery, settings, storageInMemory,this);
+        }
+
 
     }
     @SneakyThrows
-    private void handleMessage(Message message) {
+    private void handleMessage(org.telegram.telegrambots.meta.api.objects.Message message) {
         if (message.hasText() && message.hasEntities()) {
             Optional<MessageEntity> commandEntity = message.getEntities().stream()
                     .filter(e -> "bot_command".equals(e.getType())).findFirst();

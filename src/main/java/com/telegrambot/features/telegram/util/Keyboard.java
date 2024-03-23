@@ -1,10 +1,11 @@
 package com.telegrambot.features.telegram.util;
 
+import com.telegrambot.features.currency.dto.Currency;
+import com.telegrambot.features.settings.Settings;
 import lombok.experimental.UtilityClass;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -84,18 +85,23 @@ public class Keyboard {
         return InlineKeyboardMarkup.builder().keyboard(buttons).build();
     }
 
+    private String getBankButton(Settings settings, String name){
+
+        return settings.getBank().getName().equals(name) ? (Icon.CHECK.get() + name) : name.toString();
+    }
+
     public static InlineKeyboardMarkup setBankKeyboard(String selectedBank) {
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text(PRIVAT_BANK)
+                .text(getItemButtonText("ПриватБанк", selectedBank))
                 .callbackData(PRIVAT_BANK)
                 .build()));
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text(MONOBANK)
+                .text(getItemButtonText("МоноБанк", selectedBank))
                 .callbackData(MONOBANK)
                 .build()));
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text(NBU)
+                .text(getItemButtonText("НБУ", selectedBank))
                 .callbackData(NBU)
                 .build()));
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
@@ -109,14 +115,22 @@ public class Keyboard {
         return InlineKeyboardMarkup.builder().keyboard(buttons).build();
     }
 
-    public static InlineKeyboardMarkup setCurrencyKeyboard(String currency) {
+    private String getCurrencyButton(Settings settings, String name){
+
+        return settings.getCurrencies().contains(Currency.valueOf(name)) ?
+                (Icon.CHECK.get() + name) : name;
+
+    }
+
+
+    public static InlineKeyboardMarkup setCurrencyKeyboard(Settings settings) {
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text(getItemButtonText(USD.name(), currency))
+                .text(getCurrencyButton(settings, USD.name()))
                 .callbackData(USD.name())
                 .build()));
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text(getItemButtonText(EUR.name(), currency))
+                .text(getCurrencyButton(settings, EUR.name()))
                 .callbackData(EUR.name())
                 .build()));
         buttons.add(Collections.singletonList(InlineKeyboardButton.builder()
