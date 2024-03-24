@@ -12,7 +12,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 
 public class RoundRate {
     @SneakyThrows
-    public void handleCallbackRoundRate(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory, CurrencyTelegramBot bot) {
+    public void handleCallbackRoundRate(CallbackQuery callbackQuery, Settings settings,
+                                        StorageInMemoryRepo storageInMemory, CurrencyTelegramBot bot) {
         String answer = callbackQuery.getData();
         Long chatId = callbackQuery.getMessage().getChatId();
         Integer messageId = callbackQuery.getMessage().getMessageId();
@@ -33,22 +34,7 @@ public class RoundRate {
                 storageInMemory.addSetting(settings.getChatId(), settings);
             }
         }
-//        switch (answer){
-//            case "2":
-//                settings.setRoundDigit(2);
-//                System.out.println("successful roundRate 2");
-//                break;
-//            case "3":
-//                settings.setRoundDigit(3);
-//                System.out.println("successful roundRate 3");
-//                break;
-//            case "4":
-//                settings.setRoundDigit(4);
-//                System.out.println("successful roundRate 4");
-//                break;
-//            default:
-//                System.out.println("successful roundRate");
-//        }
+
         InlineKeyboardMarkup updatedMarkup = Keyboard.setRoundRateKeyboard(answer);
 
         EditMessageReplyMarkup editMessageReplyMarkup = EditMessageReplyMarkup.builder()
