@@ -1,5 +1,6 @@
 package com.telegrambot.features.telegram.util;
 
+import com.telegrambot.features.telegram.CurrencyTelegramBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,12 +13,11 @@ public class TGPictures  {
 
 
 
-    public static void sendImage(Long chatId, String name) {
+    public static void sendImage(Long chatId, CurrencyTelegramBot) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
-        sendPhoto.setPhoto(new InputFile(new File("Pictures" + name + ".jpg")));
+        sendPhoto.setPhoto(new InputFile(new File("Pictures" + CurrencyTelegramBot + ".jpg")));
 
-        TGPictures bot = new TGPictures();
         try {
             bot.execute(sendPhoto);
         } catch (TelegramApiException e) {
