@@ -8,17 +8,9 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import java.io.File;
 
-public class TGPictures extends TelegramLongPollingBot {
+public class TGPictures  {
 
-    @Override
-    public String getBotUsername() {
-        return "YourBotUsername";
-    }
 
-    @Override
-    public String getBotToken() {
-        return "YourBotToken";
-    }
 
     public static void sendImage(Long chatId, String name) {
         SendPhoto sendPhoto = new SendPhoto();
@@ -33,8 +25,5 @@ public class TGPictures extends TelegramLongPollingBot {
         }
     }
 
-    @Override
-    public void onUpdateReceived(Update update) {
 
-    }
 }
