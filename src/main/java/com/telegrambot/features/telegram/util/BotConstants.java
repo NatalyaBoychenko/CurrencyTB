@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
 @UtilityClass
 public class BotConstants {
 
-    public static final String BOT_NAME = "ForProjectNatVersionBot";
-    public static final String BOT_TOKEN = "6710863867:AAHRTETthY00mU1At3LHWMCuVroxhj3H5IA";
+    public static final String BOT_NAME = "";
+    public static final String BOT_TOKEN = "";
 //    public static final String  INFO = "Отримати інфо";
 //    public static final String SETTINGS = "Налаштування";
 //    public static final String  ROUNDED_INDEX = "Кількість знаків після коми";
