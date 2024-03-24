@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 
 public class Language {
     @SneakyThrows
-    public void handleCallbackLanguage(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory, CurrencyTelegramBot bot) {
+    public EditMessageReplyMarkup handleCallbackLanguage(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory) {
 
         String answer = callbackQuery.getData();
         Integer messageId = callbackQuery.getMessage().getMessageId();
@@ -33,39 +33,41 @@ public class Language {
             System.out.println("successful");
         }
 
-        InlineKeyboardMarkup updatedMarkup = Keyboard.setLanguageKeyboard(settings);
 
-        EditMessageReplyMarkup editMessageReplyMarkup = EditMessageReplyMarkup.builder()
+
+        return EditMessageReplyMarkup.builder()
                 .chatId(settings.getChatId())
                 .messageId(messageId)
-                .replyMarkup(updatedMarkup)
+                .replyMarkup(InlineKeyboardMarkup.builder()
+                        .keyboard(Keyboard.getLanguageButtons(settings))
+                        .build())
                 .build();
 
-        bot.execute(editMessageReplyMarkup);
-    }
-
-    @SneakyThrows
-    public void handleDefaultCallbackLanguage(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory) {
-
-        String answer = callbackQuery.getData();
-        Integer messageId = callbackQuery.getMessage().getMessageId();
-
-
-        if (answer.equals("ukr") || answer.equals("ukrainian")) {
-
-            //settings.setBank(new MonoBankCurrencyService());
-            settings.setLanguage("ukr");
-            storageInMemory.addSetting(settings.getChatId(), settings);
-            System.out.println("successful");
-        } else if (answer.equals("eng") || answer.equals("english")) {
-            //settings.setBank(new NBUCurrencyService());
-            settings.setLanguage("eng");
-            storageInMemory.addSetting(settings.getChatId(), settings);
-            System.out.println("successful");
-        }else  {
-
-            System.out.println("successful");
-        }
 
     }
+
+//    @SneakyThrows
+//    public void handleDefaultCallbackLanguage(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory) {
+//
+//        String answer = callbackQuery.getData();
+//        Integer messageId = callbackQuery.getMessage().getMessageId();
+//
+//
+//        if (answer.equals("ukr") || answer.equals("ukrainian")) {
+//
+//            //settings.setBank(new MonoBankCurrencyService());
+//            settings.setLanguage("ukr");
+//            storageInMemory.addSetting(settings.getChatId(), settings);
+//            System.out.println("successful");
+//        } else if (answer.equals("eng") || answer.equals("english")) {
+//            //settings.setBank(new NBUCurrencyService());
+//            settings.setLanguage("eng");
+//            storageInMemory.addSetting(settings.getChatId(), settings);
+//            System.out.println("successful");
+//        }else  {
+//
+//            System.out.println("successful");
+//        }
+//
+//    }
 }

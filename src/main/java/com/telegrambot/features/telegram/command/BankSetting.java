@@ -11,6 +11,7 @@ import com.telegrambot.features.telegram.util.Keyboard;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.Map;
@@ -18,49 +19,45 @@ import java.util.Map;
 import static com.telegrambot.features.telegram.util.BotConstants.*;
 
 public class BankSetting {
-    @SneakyThrows
-        public void handleCallbackRoundRate(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory, CurrencyTelegramBot bot) {
 
-            String answer = callbackQuery.getData();
-            Integer messageId = callbackQuery.getMessage().getMessageId();
-
-            String mono = BotConstants.getNameButton(settings.getLanguage(), "MONOBANK");
-            String nbu = BotConstants.getNameButton(settings.getLanguage(), "NBU");
-            String privat = BotConstants.getNameButton(settings.getLanguage(), "PRIVAT_BANK");
-
-
-        if (answer.equals(MONOBANK)) {
-
-//                settings.setBank(new MonoBankCurrencyService());
+    public EditMessageReplyMarkup handleCallbackRoundRate(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory) {
+        String answer = callbackQuery.getData();
+        Message message = (Message) callbackQuery.getMessage();
+        switch (answer) {
+            case "mono" -> {
+                //settings.setBank(new MonoBankCurrencyService());
+                System.out.println("successful");
                 settings.setBank(new MonoBankCurrencyService());
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                System.out.println("successful");
-            } else if (answer.equals(NBU)) {
-//                settings.setBank(new NBUService());
+            }
+            case "nbu" ->
+            //settings.setBank(new NBUCurrencyService());
+            {
                 settings.setBank(new NBUService());
                 storageInMemory.addSetting(settings.getChatId(), settings);
                 System.out.println("successful");
-            }else if (answer.equals(PRIVAT_BANK)) {
-//            settings.setBank(new PrivatBankCurrencyService());
-            settings.setBank(new PrivatBankCurrencyService());
-            storageInMemory.addSetting(settings.getChatId(), settings);
-            System.out.println("successful");
-            } else  {
-            System.out.println();
+            }
+            case "privat" ->
+            //settings.setBank(new NBUCurrencyService());
+            {
+                settings.setBank(new PrivatBankCurrencyService());
+                storageInMemory.addSetting(settings.getChatId(), settings);
+                System.out.println("successful");
+            }
+            default -> {
+
+                System.out.println("successful");
+            }
         }
 
-            InlineKeyboardMarkup updatedMarkup = Keyboard.setBankKeyboard(answer, settings);
-
-            EditMessageReplyMarkup editMessageReplyMarkup = EditMessageReplyMarkup.builder()
-                    .chatId(settings.getChatId())
-                    .messageId(messageId)
-                    .replyMarkup(updatedMarkup)
-                    .build();
-
-            bot.execute(editMessageReplyMarkup);
+        return EditMessageReplyMarkup.builder()
+                .chatId(message.getChatId())
+                .messageId(message.getMessageId())
+                .replyMarkup(InlineKeyboardMarkup.builder()
+                        .keyboard(Keyboard.getBankButtons(settings))
+                        .build())
+                .build();
     }
-
-
 
 
 }

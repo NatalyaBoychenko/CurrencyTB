@@ -9,6 +9,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.telegrambot.features.telegram.util.BotConstants.getNameButton;
+
 public class ExchangeMessage {
     public static String printMessage(Settings settings) {
 
@@ -17,13 +19,9 @@ public class ExchangeMessage {
         String buy = BotConstants.getNameButton(settings.getLanguage(), "BUY");
         String sell = BotConstants.getNameButton(settings.getLanguage(), "SELL");
 
-        String engName = getButton(settings, "eng", settings.getBank().getName());
-        String ukrName = getButton(settings, "ukr", settings.getBank().getName());
-
+        String bankName = getBankButton(settings, settings.getBank().getName());
 
         for (int i = 0; i < settings.getCurrencies().size(); i++) {
-
-            String bankName = settings.getBank().getName();
 
             result.append(courseIn)
                     .append(bankName).append("\n")
@@ -36,6 +34,19 @@ public class ExchangeMessage {
         }
 
         return result.toString();
+    }
+
+    private static String getBankButton(Settings settings, String bankName){
+        String name = "";
+        switch (bankName){
+            case "PrivatBank" -> name = getNameButton(settings.getLanguage(), "PRIVAT_BANK");
+            case "MonoBank" -> name = getNameButton(settings.getLanguage(), "MONOBANK");
+            case "NBU" -> name = getNameButton(settings.getLanguage(), "NBU");
+            default -> System.out.println();
+
+        }
+
+        return name;
     }
 
     private static List<BigDecimal> getRoundedBuyRate(Settings settings) {

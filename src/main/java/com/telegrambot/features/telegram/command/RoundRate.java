@@ -7,44 +7,47 @@ import com.telegrambot.features.telegram.util.Keyboard;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 
 public class RoundRate {
-    @SneakyThrows
-    public void handleCallbackRoundRate(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory, CurrencyTelegramBot bot) {
-        String answer = callbackQuery.getData();
-        Long chatId = callbackQuery.getMessage().getChatId();
-        Integer messageId = callbackQuery.getMessage().getMessageId();
 
-        switch (answer) {
+    public EditMessageReplyMarkup handleCallbackRoundRate(CallbackQuery callbackQuery, Settings settings, StorageInMemoryRepo storageInMemory) {
+        String answer = callbackQuery.getData();
+        Message message = (Message) callbackQuery.getMessage();
+
+        switch (answer){
             case "3" -> {
                 settings.setRoundDigit(3);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                System.out.println("successful roundRate 2");
+                System.out.println("successful roundrate 3");
+
             }
-            case "4" -> {
+            case "4"-> {
                 settings.setRoundDigit(4);
                 storageInMemory.addSetting(settings.getChatId(), settings);
-                System.out.println("successful roundRate 3");
+
+                System.out.println("successful roundrate 4");
+
             }
-            case "2" -> {
+
+            default -> {
                 settings.setRoundDigit(2);
                 storageInMemory.addSetting(settings.getChatId(), settings);
             }
-            default -> {
-                System.out.println();
-            }
+
         }
 
-        InlineKeyboardMarkup updatedMarkup = Keyboard.setRoundRateKeyboard(settings);
-
-        EditMessageReplyMarkup editMessageReplyMarkup = EditMessageReplyMarkup.builder()
-                .chatId(chatId)
-                .messageId(messageId)
-                .replyMarkup(updatedMarkup)
+        return EditMessageReplyMarkup.builder()
+                .chatId(message.getChatId())
+                .messageId(message.getMessageId())
+                .replyMarkup(InlineKeyboardMarkup.builder()
+                        .keyboard(Keyboard.getRoundRateButtons(settings))
+                        .build())
                 .build();
 
-        bot.execute(editMessageReplyMarkup);
     }
+
+
 }
