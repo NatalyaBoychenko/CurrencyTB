@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
 @UtilityClass
 public class BotConstants {
 
-    public static final String BOT_NAME = "";
-    public static final String BOT_TOKEN = "";
+    public static final String BOT_NAME = "NatBoiCurBot";
+    public static final String BOT_TOKEN = "6412532350:AAHp0kMrq78YDNXWT6M2zMOsgceuLDWauk8";
     public static final String PRIVAT_URL = "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5";
     public static final String MONO_URL = "https://api.monobank.ua/bank/currency";
     public static final String NBU_URL = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";

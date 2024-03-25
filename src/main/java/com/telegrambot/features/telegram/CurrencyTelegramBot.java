@@ -195,7 +195,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         System.out.println(dateFormat.format(date));
-        System.out.println("Message from " + firstName + " " + lastName + " " + username + " " + ". (id = " + userId + ") \n Text - " + txt);
+        System.out.println("Message from " + firstName + " " + lastName + ", username " + username + ". (id = " + userId + ")\nText - " + txt);
     }
 }
 
