@@ -27,10 +27,11 @@ public class Settings {
         this.chatId = chatId;
     }
 
-    public static Settings getDefaultSettings(long chatId){
+    public static Settings getDefaultSettings(long chatId, StorageInMemoryRepo storageInMemory){
 
 
         Settings defaultSettings = new Settings(chatId);
+        storageInMemory.addSetting(chatId, defaultSettings);
         defaultSettings.setBank(new PrivatBankCurrencyService());
         defaultSettings.setRoundDigit(2);
         defaultSettings.setLanguage("eng");

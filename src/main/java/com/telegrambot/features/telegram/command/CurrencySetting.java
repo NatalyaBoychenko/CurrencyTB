@@ -43,16 +43,14 @@ public class CurrencySetting {
         }
 
         settings.setCurrencies(currencies);
-        storageInMemory.addSetting(settings.getChatId(), settings);
 
-        build = EditMessageReplyMarkup.builder()
+        return EditMessageReplyMarkup.builder()
                 .chatId(message.getChatId())
                 .messageId(message.getMessageId())
                 .replyMarkup(InlineKeyboardMarkup.builder()
                         .keyboard(Keyboard.getCurrencyButtons(settings))
                         .build())
                 .build();
-        return build;
     }
 
 }

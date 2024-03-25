@@ -25,28 +25,14 @@ public class BankSetting {
         Message message = (Message) callbackQuery.getMessage();
         switch (answer) {
             case "mono" -> {
-                //settings.setBank(new MonoBankCurrencyService());
-                System.out.println("successful");
                 settings.setBank(new MonoBankCurrencyService());
-                storageInMemory.addSetting(settings.getChatId(), settings);
             }
             case "nbu" ->
-            //settings.setBank(new NBUCurrencyService());
             {
                 settings.setBank(new NBUService());
-                storageInMemory.addSetting(settings.getChatId(), settings);
-                System.out.println("successful");
-            }
-            case "privat" ->
-            //settings.setBank(new NBUCurrencyService());
-            {
-                settings.setBank(new PrivatBankCurrencyService());
-                storageInMemory.addSetting(settings.getChatId(), settings);
-                System.out.println("successful");
             }
             default -> {
-
-                System.out.println("successful");
+                settings.setBank(new PrivatBankCurrencyService());
             }
         }
 

@@ -6,6 +6,7 @@ import com.telegrambot.features.settings.StorageInMemoryRepo;
 import com.telegrambot.features.telegram.command.*;
 import com.telegrambot.features.telegram.util.BotConstants;
 import com.telegrambot.features.telegram.util.Keyboard;
+import com.telegrambot.features.telegram.util.TGPictures;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -51,7 +52,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             long chatId = update.getCallbackQuery().getMessage().getChatId();
 
             Settings settings = storageInMemory.containsSettingsForConcreteUser(chatId) ?
-                    storageInMemory.getSettingForConcreteUser(chatId) : Settings.getDefaultSettings(chatId);
+                    storageInMemory.getSettingForConcreteUser(chatId) : Settings.getDefaultSettings(chatId, storageInMemory);
 
             handleCallback(update.getCallbackQuery(), settings,storageInMemory, sendMessage);
         } else if (update.hasMessage()) {
@@ -86,6 +87,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                 execute(sendMessage);
             }
             case "INFO" -> {
+                TGPictures.sendImage(chatId, "info", this);
                 sendMessage.setChatId(chatId);
                 sendMessage.setText(ExchangeMessage.printMessage(settings));
 //                sendMessage.setText(Settings.getDefaultSettings(chatId));
@@ -114,13 +116,13 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             }
             case "BANK" -> {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "BANK"));
+                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "BANK") + "                            .");
                 sendMessage.setReplyMarkup(Keyboard.setBankKeyboard(settings));
                 execute(sendMessage);
             }
             case "CURRENCY" -> {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "CURRENCY"));
+                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "CURRENCY") + "                       .");
                 sendMessage.setReplyMarkup(Keyboard.setCurrencyKeyboard(settings));
                 execute(sendMessage);
             }
@@ -132,7 +134,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             }
             case "LANGUAGE" -> {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "LANGUAGE"));
+                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "LANGUAGE") + "                    .");
                 sendMessage.setReplyMarkup(Keyboard.setLanguageKeyboard(settings));
                 execute(sendMessage);
             }
@@ -154,14 +156,16 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             if (commandEntity.isPresent()) {
                 String command = message.getText();
                 if (command.equals("/start")) {
-
+                    TGPictures.sendImage(message.getChatId(), "greeting", this);
                     execute(SendMessage.builder()
                             .text("""
                                     Curency Telegram Bot
 
-                                    Ласкаво просимо! Цей бот допоможе знайти актуальний курс валют. Для початку оберіть мову.
+                                    Ласкаво просимо! Цей бот допоможе знайти актуальний курс 
+                                    валют. Для початку оберіть мову.
 
-                                    Welcome! This bot will help you find current exchange rate. Choose a language for start.
+                                    Welcome! This bot will help you find current exchange rate.
+                                    Choose a language for start.
 
                                     """)
                             .chatId(message.getChatId().toString())

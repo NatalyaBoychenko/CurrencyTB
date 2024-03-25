@@ -1,3 +1,5 @@
+package com.telegrambot.features.telegram.util;
+
 import com.telegrambot.features.telegram.CurrencyTelegramBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;

@@ -20,21 +20,12 @@ public class RoundRate {
         switch (answer){
             case "3" -> {
                 settings.setRoundDigit(3);
-                storageInMemory.addSetting(settings.getChatId(), settings);
-                System.out.println("successful roundrate 3");
-
             }
             case "4"-> {
                 settings.setRoundDigit(4);
-                storageInMemory.addSetting(settings.getChatId(), settings);
-
-                System.out.println("successful roundrate 4");
-
             }
-
             default -> {
                 settings.setRoundDigit(2);
-                storageInMemory.addSetting(settings.getChatId(), settings);
             }
 
         }

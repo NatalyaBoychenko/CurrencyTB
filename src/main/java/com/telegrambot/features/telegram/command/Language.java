@@ -18,21 +18,10 @@ public class Language {
 
 
         if (answer.equals("ukr")) {
-
-            //settings.setBank(new MonoBankCurrencyService());
             settings.setLanguage("ukr");
-            storageInMemory.addSetting(settings.getChatId(), settings);
-            System.out.println("successful");
-        } else if (answer.equals("eng")) {
-            //settings.setBank(new NBUCurrencyService());
+        } else {
             settings.setLanguage("eng");
-            storageInMemory.addSetting(settings.getChatId(), settings);
-            System.out.println("successful");
-        }else  {
-
-            System.out.println("successful");
         }
-
 
 
         return EditMessageReplyMarkup.builder()

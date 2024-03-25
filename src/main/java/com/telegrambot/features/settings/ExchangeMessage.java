@@ -24,7 +24,7 @@ public class ExchangeMessage {
         for (int i = 0; i < settings.getCurrencies().size(); i++) {
 
             result.append(courseIn)
-                    .append(bankName).append("\n")
+                    .append(bankName).append("                                                                     \n")
                     .append(settings.getCurrencies().get(i)).append("/UAN")
                     .append("\n")
                     .append(buy).append(getRoundedBuyRate(settings).get(i))
