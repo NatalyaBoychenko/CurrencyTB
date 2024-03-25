@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,14 +66,33 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             System.out.println("users = " + users);
         }
 //===========================================================================================
+        methodReminderTime();
+
+
+        //===================================================================
+        SendMessage sendMessage = new SendMessage();
+
+        if (update.hasCallbackQuery()) {
+
+            long chatId = update.getCallbackQuery().getMessage().getChatId();
+
+            Settings settings = storageInMemory.containsSettingsForConcreteUser(chatId) ?
+                    storageInMemory.getSettingForConcreteUser(chatId) : Settings.getDefaultSettings(chatId);
+
+            handleCallback(update.getCallbackQuery(), settings,storageInMemory, sendMessage);
+        } else if (update.hasMessage()) {
+            handleMessage(update.getMessage());
+        }
+    }
+
+    private void methodReminderTime() {
         if (flag1) {
             ScheduledExecutorService executorServiceGeneral = Executors.newSingleThreadScheduledExecutor();
 
             executorServiceGeneral.scheduleAtFixedRate(() -> {
-                        Date timeSerGen = new Date();
-                        long hourSerGen = timeSerGen.getHours();
-                        long minutesSerGen = timeSerGen.getMinutes();
-                        long secondsSerGen = timeSerGen.getSeconds();
+                        long hourSerGen = LocalTime.now().getHour();
+                        long minutesSerGen = LocalTime.now().getMinute();
+                        long secondsSerGen = LocalTime.now().getSecond();
 
                         System.out.println("General.scheduleAtFixedRate(() -> { Start" + hourSerGen +":"
                                 + minutesSerGen +":" + secondsSerGen);
@@ -100,13 +120,9 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                                             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
                                             executorService.schedule(() -> {
 // ******************************** вставити ментод відпраки повідомлення*********************
-                                                Date timeStart = new Date();
-                                                long hourSerGen2 = timeStart.getHours();
-                                                long minutesSerGen2 = timeStart.getMinutes();
-                                                System.out.println("\"TEXT MASSAGE\" = " + "TEXT MASSAGE" + hourSerGen2 + "min" + minutesSerGen2);
-
                                                 SendMessage answer = new SendMessage();
-                                                answer.setText("TEXT MASSAGE" + hourSerGen2+ "min" + minutesSerGen2);
+                                                answer.setText("TEXT MASSAGE  :" + LocalTime.now().getHour()
+                                                        + ":" + LocalTime.now().getMinute() + ":" + LocalTime.now().getSecond());
                                                 answer.setChatId(key);
                                                 try {
                                                     execute(answer);
@@ -123,26 +139,6 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                     }
                     , 0, 3, TimeUnit.MINUTES);
             flag1 = false;
-        }
-
-
-
-
-
-
-        //===================================================================
-        SendMessage sendMessage = new SendMessage();
-
-        if (update.hasCallbackQuery()) {
-
-            long chatId = update.getCallbackQuery().getMessage().getChatId();
-
-            Settings settings = storageInMemory.containsSettingsForConcreteUser(chatId) ?
-                    storageInMemory.getSettingForConcreteUser(chatId) : Settings.getDefaultSettings(chatId);
-
-            handleCallback(update.getCallbackQuery(), settings,storageInMemory, sendMessage);
-        } else if (update.hasMessage()) {
-            handleMessage(update.getMessage());
         }
     }
 
