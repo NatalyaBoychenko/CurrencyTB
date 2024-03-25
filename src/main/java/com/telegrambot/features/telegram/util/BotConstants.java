@@ -28,6 +28,6 @@ public class BotConstants {
     public static final String PRIVAT_BANK = "ПриватБанк";
     public static final List<String> TIME_REMINDER1 = List.of("0","18","8","9","10","11","12","13","14","15","16","7");
     public static final List<Long> TIME_REMINDER2 = List.of(6L,7L,8L,9L,10L,11L,12L,13L,14L,15L,16L,17L);
-    public static final List<Long> TIME_MINUTE = List.of(57L,58L,59L);
+    public static final List<Long> TIME_MINUTE = List.of(57L,58L,56L);
 
 }
