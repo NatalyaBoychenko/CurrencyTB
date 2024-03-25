@@ -94,7 +94,7 @@ public class MonoBankCurrencyService extends Bank {
 
 
         JsonMB[] todosArray = gson.fromJson(response.body(), JsonMB[].class);
-        return new ArrayList(Arrays.asList(todosArray));
+        return new ArrayList<>(Arrays.asList(todosArray));
 
     }
 

@@ -2,6 +2,7 @@ package com.telegrambot.features.telegram;
 
 import com.telegrambot.features.settings.Settings;
 import com.telegrambot.features.settings.ExchangeMessage;
+import com.telegrambot.features.settings.Settings;
 import com.telegrambot.features.settings.StorageInMemoryRepo;
 import com.telegrambot.features.telegram.command.*;
 import com.telegrambot.features.telegram.util.BotConstants;
@@ -11,9 +12,13 @@ import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 import static com.telegrambot.features.currency.dto.Currency.EUR;
@@ -149,7 +154,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     }
     @SneakyThrows
-    private void handleMessage(org.telegram.telegrambots.meta.api.objects.Message message) {
+    private void handleMessage(Message message) {
         if (message.hasText() && message.hasEntities()) {
             Optional<MessageEntity> commandEntity = message.getEntities().stream()
                     .filter(e -> "bot_command".equals(e.getType())).findFirst();
@@ -171,10 +176,26 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                             .chatId(message.getChatId().toString())
                             .replyMarkup(Keyboard.setStartLanguageKeyboard())
                             .build());
-
                 }
             }
         }
+        if(message.hasText()) {
+            String firstName = message.getChat().getFirstName();
+            String lastName = message.getChat().getLastName();
+            String username = message.getChat().getUserName();
+            long userId = message.getChat().getId();
+            String messageText = message.getText();
+
+            log(firstName, lastName, username, Long.toString(userId), messageText);
+        }
+    }
+
+    private void log(String firstName, String lastName, String username, String userId, String txt) {
+        System.out.println("\n ----------------------------");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        System.out.println("Message from " + firstName + " " + lastName + " " + username + " " + ". (id = " + userId + ") \n Text - " + txt);
     }
 }
 
