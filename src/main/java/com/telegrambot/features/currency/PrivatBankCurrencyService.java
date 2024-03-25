@@ -21,8 +21,10 @@ public class PrivatBankCurrencyService extends Bank {
 
 
     public PrivatBankCurrencyService() {
-        super("ПриватБанк");
+        super("PrivatBank");
     }
+
+
 
     @Override
     public double getBuyRate(Currency currency) {

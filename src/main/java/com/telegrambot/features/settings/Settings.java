@@ -2,6 +2,7 @@ package com.telegrambot.features.settings;
 
 import com.telegrambot.features.currency.Bank;
 import com.telegrambot.features.currency.PrivatBankCurrencyService;
+import com.telegrambot.features.telegram.util.BotConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -20,22 +21,24 @@ public class Settings {
     private Bank bank;
     private int reminderTime;
     private List<Currency> currencies;
+    private String language;
 
     public Settings(long chatId) {
         this.chatId = chatId;
     }
 
-
     public static Settings getDefaultSettings(long chatId){
+
 
         Settings defaultSettings = new Settings(chatId);
         defaultSettings.setBank(new PrivatBankCurrencyService());
         defaultSettings.setRoundDigit(2);
+        defaultSettings.setLanguage("eng");
         List<Currency> currencyList = new ArrayList<>();
 
         currencyList.add(USD);
         defaultSettings.setCurrencies(currencyList);
-        defaultSettings.setReminderTime(0);
+        defaultSettings.setReminderTime(26);
         return defaultSettings;
 
     }
