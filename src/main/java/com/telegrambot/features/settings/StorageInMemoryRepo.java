@@ -1,49 +1,32 @@
 package com.telegrambot.features.settings;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StorageInMemoryRepo {
-    private final List<Settings> chatSettings;
+    private final Map<Long, Settings> chatSetting;
+
 
     public StorageInMemoryRepo() {
-        this.chatSettings = new ArrayList<>();
+        this.chatSetting = new HashMap<>();
     }
 
 
     public boolean containsSettingsForConcreteUser(long chatId) {
-        for (Settings chatSetting : chatSettings){
-            if(chatSetting.getChatId() == chatId){
-                return true;
-            }
-        }
-        return false;
+
+        return chatSetting.containsKey(chatId);
     }
 
 
-    public void addSetting(long chatId, Settings chatSetting) {
-        for (int i = 0; i < chatSettings.size(); i++) {
-            if (chatSettings.get(i).getChatId() == chatId) {
-                chatSettings.set(i, chatSetting);
-                return;
-            }
-        }
-        chatSettings.add(chatSetting);
+    public void addSetting(long chatId, Settings settings) {
+
+        chatSetting.put(chatId, settings);
     }
 
 
     public Settings getSettingForConcreteUser(long chatId) {
-        for (Settings chatSetting : chatSettings) {
-            if (chatSetting.getChatId() == chatId) {
-                return chatSetting;
-            }
-        }
-        return null;
-    }
 
-    public List<Settings> getListOfSettings() {
-
-        return List.copyOf(chatSettings);
+        return chatSetting.get(chatId);
     }
 
 }

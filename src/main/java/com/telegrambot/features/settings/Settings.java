@@ -2,12 +2,11 @@ package com.telegrambot.features.settings;
 
 import com.telegrambot.features.currency.Bank;
 import com.telegrambot.features.currency.PrivatBankCurrencyService;
-import com.telegrambot.features.telegram.util.BotConstants;
+import com.telegrambot.features.currency.dto.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
-import com.telegrambot.features.currency.dto.Currency;
 import java.util.List;
 
 import static com.telegrambot.features.currency.dto.Currency.USD;

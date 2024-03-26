@@ -1,6 +1,6 @@
 
 package com.telegrambot.features.currency.dto;
-import com.telegrambot.features.currency.dto.Currency;
+
 import lombok.Data;
 
 @Data

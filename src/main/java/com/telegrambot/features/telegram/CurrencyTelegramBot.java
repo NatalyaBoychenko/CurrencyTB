@@ -60,10 +60,6 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-
-
-
-
         SendMessage sendMessage = new SendMessage();
 
         if (update.hasCallbackQuery()) {
@@ -108,7 +104,6 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
                                         start = (59 - minutesSerGen) * 60 + 60 - secondsSerGen;
 
-                                        System.out.println("start = " + start);
                                         if (start != 0) {
 
                                             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -192,7 +187,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             }
             case "CURRENCY" -> {
                 sendMessage.setChatId(chatId);
-                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "CURRENCY") + "                       .");
+                sendMessage.setText(BotConstants.getNameButton(settings.getLanguage(), "CURRENCY") + "                      .");
                 sendMessage.setReplyMarkup(Keyboard.setCurrencyKeyboard(settings));
                 execute(sendMessage);
             }
@@ -208,12 +203,12 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                 sendMessage.setReplyMarkup(Keyboard.setLanguageKeyboard(settings));
                 execute(sendMessage);
             }
-            case "2", "3", "4" -> execute(roundRate.handleCallbackRoundRate(callbackQuery, settings, storageInMemory));
+            case "2", "3", "4" -> execute(roundRate.handleCallbackRoundRate(callbackQuery, settings));
             case "privat", "mono", "nbu" ->
-                    execute(bankSetting.handleCallbackRoundRate(callbackQuery, settings, storageInMemory));
-            case "USD", "EUR" -> execute(currency.handleCallbackCurrency(callbackQuery, settings, storageInMemory));
-            case "eng", "ukr" -> execute(language.handleCallbackLanguage(callbackQuery, settings, storageInMemory));
-            default -> execute(reminder.handleCallbackReminder(callbackQuery, settings, storageInMemory));
+                    execute(bankSetting.handleCallbackRoundRate(callbackQuery, settings));
+            case "USD", "EUR" -> execute(currency.handleCallbackCurrency(callbackQuery, settings));
+            case "eng", "ukr" -> execute(language.handleCallbackLanguage(callbackQuery, settings));
+            default -> execute(reminder.handleCallbackReminder(callbackQuery, settings));
         }
 
 

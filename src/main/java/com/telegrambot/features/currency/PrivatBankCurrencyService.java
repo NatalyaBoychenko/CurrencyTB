@@ -60,7 +60,8 @@ public class PrivatBankCurrencyService extends Bank {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new IllegalStateException("Cannot connect to PrivatBank API");
         }
 
         CurrencyPrivatItem[] todosArray = gson.fromJson(response.body(), (Type) CurrencyPrivatItem[].class);

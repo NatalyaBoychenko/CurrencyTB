@@ -12,7 +12,7 @@ public class TGPictures {
     public static void sendImage(Long chatId, String name, CurrencyTelegramBot bot) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
-        sendPhoto.setPhoto(new InputFile(new File("Pictures/" + name + ".jpg"))); // Assuming the pictures are in the "Pictures" directory
+        sendPhoto.setPhoto(new InputFile(new File("src/main/resources/Pictures/" + name + ".jpg"))); // Assuming the pictures are in the "Pictures" directory
 
         try {
             bot.execute(sendPhoto);

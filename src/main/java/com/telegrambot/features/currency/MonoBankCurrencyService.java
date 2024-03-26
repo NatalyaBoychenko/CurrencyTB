@@ -89,7 +89,8 @@ public class MonoBankCurrencyService extends Bank {
         try {
             response = client.send(request, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new IllegalStateException("Cannot connect to MonoBank API");
         }
 
 
