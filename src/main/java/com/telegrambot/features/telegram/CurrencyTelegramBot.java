@@ -73,7 +73,6 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
             if (BotConstants.TIME_REMINDER1.contains(update.getCallbackQuery().getData())) {
                 users.put(chatId, update.getCallbackQuery().getData());
-                System.out.println("users = " + users);
             }
 
             methodReminderTime(settings);
