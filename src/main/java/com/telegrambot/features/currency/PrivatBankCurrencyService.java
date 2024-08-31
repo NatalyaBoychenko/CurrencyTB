@@ -15,14 +15,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.telegrambot.features.telegram.util.BotConstants.PRIVAT_URL;
 
 
 public class PrivatBankCurrencyService extends Bank {
 
 
     public PrivatBankCurrencyService() {
-        super("ПриватБанк");
+        super("PrivatBank");
     }
+
+
 
     @Override
     public double getBuyRate(Currency currency) {
@@ -47,18 +50,18 @@ public class PrivatBankCurrencyService extends Bank {
     public List<CurrencyPrivatItem> getCurrenciesOfBank() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         HttpClient client = HttpClient.newHttpClient();
-        String url = "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5";
 
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(PRIVAT_URL))
                 .GET()
                 .build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new IllegalStateException("Cannot connect to PrivatBank API");
         }
 
         CurrencyPrivatItem[] todosArray = gson.fromJson(response.body(), (Type) CurrencyPrivatItem[].class);

@@ -1,6 +1,5 @@
 package com.telegrambot.features;
 
-import com.telegrambot.features.settings.StorageInMemoryRepo;
 import com.telegrambot.features.telegram.CurrencyTelegramBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
